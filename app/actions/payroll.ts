@@ -1,9 +1,13 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { logAction } from "@/app/actions/audit";
 
 export async function generatePayrollData(year: number, month: number) {
   const supabase = await createClient();
+
+  // Audit Log
+  await logAction("EXPORT_PAYROLL", undefined, { year, month });
 
   // Month is 1-12
   const startDate = new Date(year, month - 1, 1).toISOString();

@@ -9,6 +9,33 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      audit_logs: {
+        Row: {
+          action: Database["public"]["Enums"]["audit_action"]
+          actor_id: string
+          created_at: string | null
+          id: string
+          metadata: Json | null
+          target_id: string | null
+        }
+        Insert: {
+          action: Database["public"]["Enums"]["audit_action"]
+          actor_id: string
+          created_at?: string | null
+          id?: string
+          metadata?: Json | null
+          target_id?: string | null
+        }
+        Update: {
+          action?: Database["public"]["Enums"]["audit_action"]
+          actor_id?: string
+          created_at?: string | null
+          id?: string
+          metadata?: Json | null
+          target_id?: string | null
+        }
+        Relationships: []
+      }
       contracts: {
         Row: {
           created_at: string | null
@@ -244,6 +271,19 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
+      audit_action:
+        | "LOGIN"
+        | "LOGOUT"
+        | "VIEW_BSN"
+        | "VIEW_SICKNESS_DETAILS"
+        | "EXPORT_PAYROLL"
+        | "APPROVE_LEAVE"
+        | "DENY_LEAVE"
+        | "REPORT_SICKNESS"
+        | "REPORT_RECOVERY"
+        | "UPDATE_ROLE"
+        | "CREATE_USER"
+        | "ADD_EXPENSE"
       leave_status: "pending" | "approved" | "denied"
       leave_type: "wettelijk" | "bovenwettelijk"
       sickness_status:

@@ -3,6 +3,9 @@ import { generatePayrollData } from './payroll'
 
 // Mock Supabase
 const mockSupabase = {
+  auth: {
+    getUser: vi.fn().mockResolvedValue({ data: { user: { id: 'admin-1' } } })
+  },
   from: vi.fn(),
 }
 
@@ -19,6 +22,11 @@ describe('generatePayrollData', () => {
 
   it('fetches payroll data correctly', async () => {
     // Setup mocks
+    // 0. Audit Log
+    const auditLogQuery = {
+      insert: vi.fn().mockResolvedValue({ error: null })
+    }
+
     // 1. New Hires
     const newHiresQuery = {
       select: vi.fn().mockReturnThis(),
@@ -48,6 +56,7 @@ describe('generatePayrollData', () => {
     }
 
     mockSupabase.from
+      .mockReturnValueOnce(auditLogQuery)
       .mockReturnValueOnce(newHiresQuery)
       .mockReturnValueOnce(terminationsQuery)
       .mockReturnValueOnce(sicknessReportsQuery)

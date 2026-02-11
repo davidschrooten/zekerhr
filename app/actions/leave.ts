@@ -3,6 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { Database } from "@/lib/supabase/database.types";
+import { logAction } from "@/app/actions/audit";
 
 type LeaveType = Database["public"]["Enums"]["leave_type"];
 
@@ -133,6 +134,12 @@ export async function approveLeaveRequest(requestId: string, managerId: string) 
     .from("leave_requests")
     .update({ status: "approved" })
     .eq("id", requestId);
+
+  await logAction("APPROVE_LEAVE", request.user_id, { 
+    requestId, 
+    minutes: request.minutes_requested,
+    managerId 
+  });
 
   revalidatePath("/dashboard/manager");
 }

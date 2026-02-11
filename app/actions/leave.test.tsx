@@ -75,6 +75,11 @@ describe('approveLeaveRequest', () => {
           update: updateMock.mockReturnThis(),
         }
       }
+      if (table === 'audit_logs') {
+        return {
+          insert: vi.fn().mockResolvedValue({ error: null })
+        }
+      }
       return {}
     })
 

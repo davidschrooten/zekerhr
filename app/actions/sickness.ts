@@ -3,6 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { logAction } from "@/app/actions/audit";
 
 export async function reportSickness(userId: string) {
   const supabase = await createClient();
@@ -37,6 +38,8 @@ export async function reportSickness(userId: string) {
   if (error) {
     throw new Error(error.message);
   }
+
+  await logAction("REPORT_SICKNESS", userId);
 
   revalidatePath("/dashboard/employee");
 }
@@ -75,6 +78,8 @@ export async function reportRecovery(userId: string) {
   if (error) {
     throw new Error(error.message);
   }
+
+  await logAction("REPORT_RECOVERY", userId);
 
   revalidatePath("/dashboard/employee");
 }
