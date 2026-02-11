@@ -7,6 +7,7 @@ ZekerHR is a Sovereign HR SaaS built for the Dutch market (2026), targeting SMEs
 1.  **Sovereignty:** No shared database tables. Client data is physically isolated.
 2.  **Compliance:** Strict adherence to Dutch labor laws (Wet verbetering poortwachter, WKR 2026).
 3.  **Security:** Invite-only access. Undeletable Super Admin. BSN/IBAN encryption at rest.
+4.  **Styling:** "Vercel-like" aesthetic. Wide, simplistic, functional. See `docs/STYLING.md`.
 
 ## Development Standards
 1.  **Testing:** Maintain a minimum of 90% unit test coverage for all new code.
