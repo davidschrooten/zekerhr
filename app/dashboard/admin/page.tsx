@@ -1,6 +1,7 @@
 import { getAllUsers, getComplianceAlerts } from "@/app/actions/admin";
 import { UserList } from "@/components/admin/user-list";
 import { ComplianceAlerts } from "@/components/admin/compliance-alerts";
+import { InviteUserForm } from "@/components/admin/invite-user-form";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function AdminPage() {
@@ -23,6 +24,9 @@ export default async function AdminPage() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
+        <div className="md:col-span-2">
+            <InviteUserForm />
+        </div>
         <ComplianceAlerts alerts={alerts} />
         <UserList users={users} />
       </div>
