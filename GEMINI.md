@@ -13,6 +13,7 @@ ZekerHR is a Sovereign HR SaaS built for the Dutch market (2026), targeting SMEs
 1.  **Testing:** Maintain a minimum of 90% unit test coverage for all new code.
 2.  **Workflow:** Use feature branches for significant functionality. Merge back to `main` only when complete.
 3.  **Git Commits:** Keep commit messages concise and focused. Avoid verbose descriptions.
+4.  **Documentation:** Reference sub-documents using the `@./path/to/file.md` syntax to indicate external context.
 
 ## Tech Stack
 -   **Frontend:** Next.js 15 (App Router), Tailwind CSS.
@@ -20,8 +21,17 @@ ZekerHR is a Sovereign HR SaaS built for the Dutch market (2026), targeting SMEs
 -   **Encryption:** `pgsodium` for sensitive fields (BSN, IBAN).
 
 ## Documentation Map
-Refer to the `docs/` directory for specific implementation details:
--   `ARCHITECTURE.md`: Infrastructure and stack details.
--   `COMPLIANCE_*.md`: Specific Dutch labor law logic.
--   `DATA_MODEL.md`: Schema and field-level security.
--   `AUTH_RBAC.md`: Roles and permissions.
+Refer to the following documents for specific implementation details:
+
+ @./docs/PROJECT_SUMMARY.md
+ @./docs/ARCHITECTURE.md
+ @./docs/DATA_MODEL.md
+ @./docs/COMPLIANCE_POORTWACHTER.md
+ @./docs/COMPLIANCE_WKR_LEAVE.md
+ @./docs/AUTH_RBAC.md
+ @./docs/GDPR_AVG_LOGGING.md
+ @./docs/STYLING.md
+ @./docs/INSTANCE_PROVISIONING.md
+ @./docs/PAYROLL_EXPORT_SPEC.md
+ @./docs/USER_FLOWS_ADMIN.md
+ @./docs/USER_FLOWS_EMPLOYEE.md
