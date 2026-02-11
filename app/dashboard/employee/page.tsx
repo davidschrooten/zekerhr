@@ -5,6 +5,8 @@ import { ContractCard } from "@/components/contract-card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { InfoIcon } from "lucide-react";
 import { SicknessReporter } from "@/components/sickness-reporter";
+import { LeaveBalanceSummary } from "@/components/leave-balance-summary";
+import { LeaveRequestForm } from "@/components/leave-request-form";
 
 export default async function EmployeePage() {
   const supabase = await createClient();
@@ -48,32 +50,41 @@ export default async function EmployeePage() {
         <p className="text-muted-foreground">Welcome back, {profile?.full_name || user.email}</p>
       </div>
 
-      <SicknessReporter userId={user.id} activeSickness={!!activeSickness} />
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="md:col-span-2 space-y-6">
+          <SicknessReporter userId={user.id} activeSickness={!!activeSickness} />
 
-      {!profile && (
-        <Alert>
-          <InfoIcon className="h-4 w-4" />
-          <AlertTitle>Profile Setup Required</AlertTitle>
-          <AlertDescription>
-            Your profile information has not been completed. Please contact HR.
-          </AlertDescription>
-        </Alert>
-      )}
+          {!profile && (
+            <Alert>
+              <InfoIcon className="h-4 w-4" />
+              <AlertTitle>Profile Setup Required</AlertTitle>
+              <AlertDescription>
+                Your profile information has not been completed. Please contact HR.
+              </AlertDescription>
+            </Alert>
+          )}
 
-      <div className="grid gap-6 md:grid-cols-2">
-        {profile && <ProfileCard profile={profile} />}
-        {contract && <ContractCard contract={contract} />}
+          <div className="grid gap-6 md:grid-cols-2">
+            {profile && <ProfileCard profile={profile} />}
+            {contract && <ContractCard contract={contract} />}
+          </div>
+
+          {!contract && profile && (
+            <Alert>
+              <InfoIcon className="h-4 w-4" />
+              <AlertTitle>No Active Contract</AlertTitle>
+              <AlertDescription>
+                We couldn't find an active employment contract in the system.
+              </AlertDescription>
+            </Alert>
+          )}
+        </div>
+        
+        <div className="space-y-6">
+          <LeaveBalanceSummary />
+          <LeaveRequestForm />
+        </div>
       </div>
-
-      {!contract && profile && (
-        <Alert>
-          <InfoIcon className="h-4 w-4" />
-          <AlertTitle>No Active Contract</AlertTitle>
-          <AlertDescription>
-            We couldn't find an active employment contract in the system.
-          </AlertDescription>
-        </Alert>
-      )}
     </div>
   );
 }
