@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatDate } from "@/lib/utils";
 import { Database } from "@/lib/supabase/database.types";
 import { InfoIcon } from "lucide-react";
+import { DocumentUpload } from "@/components/manager/document-upload";
 
 type SicknessLogWithProfile = Database["public"]["Tables"]["sickness_logs"]["Row"] & {
   profiles: { full_name: string | null, email: string } | null
@@ -32,22 +33,26 @@ export function SicknessOverview({ logs }: SicknessOverviewProps) {
       <CardHeader>
         <CardTitle>Active Sickness Reports</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-6">
         {logs.map((log) => (
-          <div key={log.id} className="flex items-center justify-between border-b pb-4 last:border-0 last:pb-0">
-            <div>
-              <p className="font-medium">{log.profiles?.full_name || log.profiles?.email}</p>
-              <p className="text-sm text-muted-foreground">
-                Reported: {formatDate(log.report_date)}
-              </p>
-              <p className="text-xs text-muted-foreground mt-1 capitalize">
-                Status: {log.status.replace("_", " ")}
-              </p>
+          <div key={log.id} className="border-b pb-4 last:border-0 last:pb-0 space-y-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="font-medium">{log.profiles?.full_name || log.profiles?.email}</p>
+                <p className="text-sm text-muted-foreground">
+                  Reported: {formatDate(log.report_date)}
+                </p>
+                <p className="text-xs text-muted-foreground mt-1 capitalize">
+                  Status: {log.status.replace("_", " ")}
+                </p>
+              </div>
+              <div className="flex items-center text-destructive">
+                <InfoIcon className="h-4 w-4 mr-2" />
+                <span className="text-sm font-medium">Active</span>
+              </div>
             </div>
-            <div className="flex items-center text-destructive">
-              <InfoIcon className="h-4 w-4 mr-2" />
-              <span className="text-sm font-medium">Active</span>
-            </div>
+            
+            <DocumentUpload sicknessLogId={log.id} />
           </div>
         ))}
       </CardContent>
