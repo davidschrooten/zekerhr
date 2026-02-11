@@ -1,90 +1,42 @@
-import { createClient } from "@/lib/supabase/server";
-import { redirect } from "next/navigation";
-import { ProfileCard } from "@/components/profile-card";
-import { ContractCard } from "@/components/contract-card";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { InfoIcon } from "lucide-react";
-import { SicknessReporter } from "@/components/sickness-reporter";
-import { LeaveBalanceSummary } from "@/components/leave-balance-summary";
-import { LeaveRequestForm } from "@/components/leave-request-form";
+import { EmployeeMetrics } from '@/components/employee-metrics'
+import { EmployeeTasks } from '@/components/employee-tasks'
+import { EmployeeActivity } from '@/components/employee-activity'
+import { createClient } from '@/lib/supabase/server'
 
-export default async function EmployeePage() {
-  const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return redirect("/auth/login");
-  }
-
-  // Fetch profile
+export default async function EmployeeDashboardPage() {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
   const { data: profile } = await supabase
     .from("profiles")
-    .select("*")
-    .eq("id", user.id)
-    .single();
+    .select("full_name")
+    .eq("id", user?.id!)
+    .single()
 
-  // Fetch active contract
-  const { data: contract } = await supabase
-    .from("contracts")
-    .select("*")
-    .eq("user_id", user.id)
-    .order("start_date", { ascending: false })
-    .limit(1)
-    .single();
-
-  // Check for active sickness
-  const { data: activeSickness } = await supabase
-    .from("sickness_logs")
-    .select("id")
-    .eq("user_id", user.id)
-    .is("recovery_date", null)
-    .single();
+  const displayName = profile?.full_name?.split(' ')[0] || user?.email?.split('@')[0] || 'Collega'
 
   return (
-    <div className="space-y-8">
-      <div>
-        <h1 className="text-3xl font-bold">My Dashboard</h1>
-        <p className="text-muted-foreground">Welcome back, {profile?.full_name || user.email}</p>
+    <div className="mx-auto max-w-screen-2xl px-6 py-8">
+      {/* Welcome Message */}
+      <div className="mb-8">
+        <h1 className="text-3xl font-semibold tracking-tight text-foreground">
+          Goedemorgen, {displayName}
+        </h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Hier is jouw persoonlijke overzicht
+        </p>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <div className="md:col-span-2 space-y-6">
-          <SicknessReporter userId={user.id} activeSickness={!!activeSickness} />
+      {/* Metrics Grid */}
+      <EmployeeMetrics />
 
-          {!profile && (
-            <Alert>
-              <InfoIcon className="h-4 w-4" />
-              <AlertTitle>Profile Setup Required</AlertTitle>
-              <AlertDescription>
-                Your profile information has not been completed. Please contact HR.
-              </AlertDescription>
-            </Alert>
-          )}
+      {/* Two Column Layout */}
+      <div className="mt-8 grid gap-6 lg:grid-cols-2">
+        {/* Tasks */}
+        <EmployeeTasks />
 
-          <div className="grid gap-6 md:grid-cols-2">
-            {profile && <ProfileCard profile={profile} />}
-            {contract && <ContractCard contract={contract} />}
-          </div>
-
-          {!contract && profile && (
-            <Alert>
-              <InfoIcon className="h-4 w-4" />
-              <AlertTitle>No Active Contract</AlertTitle>
-              <AlertDescription>
-                We couldn't find an active employment contract in the system.
-              </AlertDescription>
-            </Alert>
-          )}
-        </div>
-        
-        <div className="space-y-6">
-          <LeaveBalanceSummary />
-          <LeaveRequestForm />
-        </div>
+        {/* Recent Activity */}
+        <EmployeeActivity />
       </div>
     </div>
-  );
+  )
 }
