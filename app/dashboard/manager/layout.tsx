@@ -3,11 +3,10 @@ import { AdminSidebarLayout } from "@/components/layouts/admin-layout";
 import { 
   LayoutDashboardIcon, 
   UsersIcon, 
-  SettingsIcon,
-  ShieldCheckIcon 
+  SettingsIcon
 } from "lucide-react";
 
-export default async function AdminLayout({
+export default async function ManagerLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -15,11 +14,8 @@ export default async function AdminLayout({
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  if (!user) {
-    return null; // Layout root handles redirect
-  }
+  if (!user) return null;
 
-  // Fetch profile for name/initials
   const { data: profile } = await supabase
     .from("profiles")
     .select("full_name, email")
@@ -29,22 +25,17 @@ export default async function AdminLayout({
   const sidebarItems = [
     {
       title: "Overview",
-      href: "/dashboard/admin",
+      href: "/dashboard/manager",
       icon: <LayoutDashboardIcon className="h-4 w-4" />,
     },
     {
-      title: "Users",
-      href: "/dashboard/admin/users", // Placeholder for now
+      title: "Team",
+      href: "/dashboard/manager/team",
       icon: <UsersIcon className="h-4 w-4" />,
     },
     {
-      title: "Compliance",
-      href: "/dashboard/admin/compliance", // Placeholder for now
-      icon: <ShieldCheckIcon className="h-4 w-4" />,
-    },
-    {
       title: "Settings",
-      href: "/dashboard/admin/settings",
+      href: "/dashboard/manager/settings",
       icon: <SettingsIcon className="h-4 w-4" />,
     },
   ];
@@ -58,7 +49,7 @@ export default async function AdminLayout({
           ? profile.full_name.split(" ").map((n: string) => n[0]).join("").substring(0, 2).toUpperCase()
           : user.email?.substring(0, 2).toUpperCase()
       }}
-      title="Admin"
+      title="Manager"
       items={sidebarItems}
     >
       {children}

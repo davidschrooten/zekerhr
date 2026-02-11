@@ -1,27 +1,64 @@
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { createClient } from "@/lib/supabase/server";
+import { AdminSidebarLayout } from "@/components/layouts/admin-layout";
+import { 
+  LayoutDashboardIcon, 
+  FileTextIcon, 
+  EuroIcon,
+  SettingsIcon
+} from "lucide-react";
 
-export default function HRLayout({
+export default async function HRLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) return null;
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("full_name, email")
+    .eq("id", user.id)
+    .single();
+
+  const sidebarItems = [
+    {
+      title: "Overview",
+      href: "/dashboard/hr",
+      icon: <LayoutDashboardIcon className="h-4 w-4" />,
+    },
+    {
+      title: "WKR",
+      href: "/dashboard/hr/wkr",
+      icon: <EuroIcon className="h-4 w-4" />,
+    },
+    {
+      title: "Contracts",
+      href: "/dashboard/hr/contracts",
+      icon: <FileTextIcon className="h-4 w-4" />,
+    },
+    {
+      title: "Settings",
+      href: "/dashboard/hr/settings",
+      icon: <SettingsIcon className="h-4 w-4" />,
+    },
+  ];
+
   return (
-    <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
-      <aside className="-mx-4 lg:w-1/5">
-        <nav className="flex space-x-2 lg:flex-col lg:space-x-0 lg:space-y-1">
-          <Button asChild variant="ghost" className="justify-start">
-            <Link href="/dashboard/hr">Overview</Link>
-          </Button>
-          <Button asChild variant="ghost" className="justify-start">
-            <Link href="/dashboard/hr/wkr">WKR</Link>
-          </Button>
-          <Button asChild variant="ghost" className="justify-start">
-            <Link href="/dashboard/hr/contracts">Contracts</Link>
-          </Button>
-        </nav>
-      </aside>
-      <div className="flex-1 lg:max-w-4xl">{children}</div>
-    </div>
+    <AdminSidebarLayout 
+      user={{
+        email: user.email,
+        full_name: profile?.full_name || undefined,
+        initials: profile?.full_name 
+          ? profile.full_name.split(" ").map((n: string) => n[0]).join("").substring(0, 2).toUpperCase()
+          : user.email?.substring(0, 2).toUpperCase()
+      }}
+      title="HR Dashboard"
+      items={sidebarItems}
+    >
+      {children}
+    </AdminSidebarLayout>
   );
 }
