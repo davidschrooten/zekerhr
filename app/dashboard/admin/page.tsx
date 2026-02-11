@@ -1,4 +1,4 @@
-import { getAllUsers, getComplianceAlerts } from "@/app/actions/admin";
+import { getAllUsers, getAdminNotifications } from "@/app/actions/admin";
 import { UserList } from "@/components/admin/user-list";
 import { ComplianceAlerts } from "@/components/admin/compliance-alerts";
 import { InviteUserForm } from "@/components/admin/invite-user-form";
@@ -11,10 +11,7 @@ export default async function AdminPage() {
   if (!user) return null;
 
   const users = await getAllUsers();
-  // TODO: Fix the compliance alert fetching type mismatch if needed.
-  // The 'getComplianceAlerts' function returns 'any[]' in the current implementation because type is loosely defined.
-  // We can trust it for now or add proper typing.
-  const alerts: any[] = await getComplianceAlerts() || [];
+  const notifications: any = await getAdminNotifications();
 
   return (
     <div className="space-y-8">
@@ -27,7 +24,7 @@ export default async function AdminPage() {
         <div className="md:col-span-2">
             <InviteUserForm />
         </div>
-        <ComplianceAlerts alerts={alerts} />
+        <ComplianceAlerts alerts={notifications} />
         <UserList users={users} />
       </div>
     </div>

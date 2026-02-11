@@ -19,51 +19,40 @@ export async function getAllUsers() {
   return users || [];
 }
 
-export async function getComplianceAlerts() {
+export async function getAdminNotifications() {
   const supabase = await createClient();
-  
-  // Fetch active sickness cases
-  const { data: logs } = await supabase
-    .from("sickness_logs")
-    .select(`
-      *,
-      profiles:user_id (full_name, email)
-    `)
-    .is("recovery_date", null);
 
-  if (!logs) return [];
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return [];
 
-  const now = new Date();
-  const alerts = [];
+  const { data: notifications, error } = await supabase
+    .from("notifications")
+    .select("*")
+    .eq("user_id", user.id)
+    .eq("is_read", false)
+    .order("created_at", { ascending: false });
 
-  for (const log of logs) {
-    const reportDate = new Date(log.report_date);
-    const weeksSick = Math.floor((now.getTime() - reportDate.getTime()) / (1000 * 3600 * 24 * 7));
-
-    // Poortwachter Logic
-    if (weeksSick >= 5 && weeksSick < 6) {
-      alerts.push({
-        id: log.id,
-        type: "Week 6: Probleemanalyse Deadline",
-        user: log.profiles?.full_name || "Unknown",
-        dueDate: new Date(reportDate.getTime() + (6 * 7 * 24 * 3600 * 1000)).toISOString()
-      });
-    } else if (weeksSick >= 7 && weeksSick < 8) {
-      alerts.push({
-        id: log.id,
-        type: "Week 8: Plan van Aanpak Deadline",
-        user: log.profiles?.full_name || "Unknown",
-        dueDate: new Date(reportDate.getTime() + (8 * 7 * 24 * 3600 * 1000)).toISOString()
-      });
-    } else if (weeksSick >= 40 && weeksSick < 42) {
-      alerts.push({
-        id: log.id,
-        type: "Week 42: UWV Notification Required",
-        user: log.profiles?.full_name || "Unknown",
-        dueDate: new Date(reportDate.getTime() + (42 * 7 * 24 * 3600 * 1000)).toISOString()
-      });
-    }
+  if (error) {
+    console.error("Error fetching notifications:", error);
+    return [];
   }
 
-  return alerts;
+  return notifications;
+}
+
+export async function markNotificationAsRead(notificationId: string) {
+  const supabase = await createClient();
+  
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) throw new Error("Unauthorized");
+
+  const { error } = await supabase
+    .from("notifications")
+    .update({ is_read: true })
+    .eq("id", notificationId)
+    .eq("user_id", user.id); // Ensure user owns the notification
+
+  if (error) {
+    throw new Error(error.message);
+  }
 }
