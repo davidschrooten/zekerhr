@@ -1,59 +1,81 @@
-import { createClient } from "@/lib/supabase/server";
-import { formatCurrency, formatDate } from "@/lib/utils";
+import { format } from "date-fns";
+import { nl } from "date-fns/locale";
+import { Database } from "@/lib/supabase/database.types";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
-export async function LeaveBalanceSummary() {
-  const supabase = await createClient();
+type LeaveBalance = Database['public']['Tables']['leave_balances']['Row'];
 
-  const { data: { user } } = await supabase.auth.getUser();
+interface LeaveBalanceSummaryProps {
+  balances: LeaveBalance[];
+}
 
-  if (!user) {
-    return null;
-  }
+export function LeaveBalanceSummary({ balances }: LeaveBalanceSummaryProps) {
+  const wettelijkMins = balances
+    .filter(b => b.type === "wettelijk")
+    .reduce((acc, curr) => acc + curr.balance_minutes, 0);
+  
+  const bovenwettelijkMins = balances
+    .filter(b => b.type === "bovenwettelijk")
+    .reduce((acc, curr) => acc + curr.balance_minutes, 0);
 
-  const { data: balances } = await supabase
-    .from("leave_balances")
-    .select("*")
-    .eq("user_id", user.id)
-    .gt("balance_minutes", 0)
-    .order("expiration_date", { ascending: true });
-
-  const wettelijk = balances?.filter(b => b.type === "wettelijk").reduce((acc, curr) => acc + curr.balance_minutes, 0) || 0;
-  const bovenwettelijk = balances?.filter(b => b.type === "bovenwettelijk").reduce((acc, curr) => acc + curr.balance_minutes, 0) || 0;
+  const totalMins = wettelijkMins + bovenwettelijkMins;
+  const totalHours = Math.floor(totalMins / 60);
+  const totalDays = (totalHours / 8).toFixed(1); // Assuming 8h day
 
   return (
-    <div className="border rounded-lg p-6 space-y-4">
-      <h3 className="text-lg font-medium">Leave Balances</h3>
-      
-      <div className="grid grid-cols-2 gap-4">
-        <div className="bg-muted/50 p-4 rounded-md">
-          <span className="text-sm font-medium text-muted-foreground block mb-1">Total Available</span>
-          <span className="text-2xl font-bold">{Math.floor((wettelijk + bovenwettelijk) / 60)} hours</span>
+    <Card>
+      <CardHeader className="pb-2">
+        <CardTitle className="text-sm font-medium text-muted-foreground">
+          Beschikbaar Saldo
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="flex items-baseline gap-2">
+          <span className="text-3xl font-bold">{totalDays}</span>
+          <span className="text-sm text-muted-foreground">dagen</span>
+          <span className="ml-2 text-xs text-muted-foreground">({totalHours} uur)</span>
         </div>
 
-        <div className="space-y-2">
-          <div className="flex justify-between text-sm">
-            <span className="text-muted-foreground">Statutory (Wettelijk)</span>
-            <span>{Math.floor(wettelijk / 60)}h</span>
+        <div className="mt-6 space-y-4">
+          {/* Wettelijk */}
+          <div className="space-y-1">
+            <div className="flex justify-between text-sm">
+              <span className="font-medium">Wettelijk</span>
+              <span className="text-muted-foreground">{Math.floor(wettelijkMins / 60)} uur</span>
+            </div>
+            <div className="h-2 w-full rounded-full bg-secondary">
+              <div 
+                className="h-full rounded-full bg-blue-600 dark:bg-blue-500" 
+                style={{ width: `${totalMins > 0 ? (wettelijkMins / totalMins) * 100 : 0}%` }} 
+              />
+            </div>
+            {balances.filter(b => b.type === 'wettelijk').slice(0, 1).map(b => (
+               <p key={b.id} className="text-xs text-muted-foreground">
+                 Vervalt: {format(new Date(b.expiration_date), "d MMM yyyy", { locale: nl })}
+               </p>
+            ))}
           </div>
-          <div className="flex justify-between text-sm">
-            <span className="text-muted-foreground">Non-statutory (Bovenwettelijk)</span>
-            <span>{Math.floor(bovenwettelijk / 60)}h</span>
+
+          {/* Bovenwettelijk */}
+          <div className="space-y-1">
+            <div className="flex justify-between text-sm">
+              <span className="font-medium">Bovenwettelijk</span>
+              <span className="text-muted-foreground">{Math.floor(bovenwettelijkMins / 60)} uur</span>
+            </div>
+            <div className="h-2 w-full rounded-full bg-secondary">
+              <div 
+                 className="h-full rounded-full bg-emerald-600 dark:bg-emerald-500"
+                 style={{ width: `${totalMins > 0 ? (bovenwettelijkMins / totalMins) * 100 : 0}%` }}
+              />
+            </div>
+             {balances.filter(b => b.type === 'bovenwettelijk').slice(0, 1).map(b => (
+               <p key={b.id} className="text-xs text-muted-foreground">
+                 Vervalt: {format(new Date(b.expiration_date), "d MMM yyyy", { locale: nl })}
+               </p>
+            ))}
           </div>
         </div>
-      </div>
-
-      <div className="mt-4 pt-4 border-t">
-        <h4 className="text-sm font-medium mb-2">Expiring Soon</h4>
-        {balances?.slice(0, 3).map((balance) => (
-          <div key={balance.id} className="text-xs text-muted-foreground flex justify-between py-1">
-            <span>{balance.type === "wettelijk" ? "Wettelijk" : "Bovenwettelijk"} ({Math.floor(balance.balance_minutes / 60)}h)</span>
-            <span>Expires: {formatDate(balance.expiration_date)}</span>
-          </div>
-        ))}
-        {(!balances || balances.length === 0) && (
-          <p className="text-xs text-muted-foreground">No expiring balances.</p>
-        )}
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }
