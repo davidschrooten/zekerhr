@@ -23,15 +23,15 @@ ZekerHR is a Sovereign HR SaaS built for the Dutch market (2026), targeting SMEs
 ## Documentation Map
 Refer to the following documents for specific implementation details:
 
- @./docs/PROJECT_SUMMARY.md
- @./docs/ARCHITECTURE.md
- @./docs/DATA_MODEL.md
- @./docs/COMPLIANCE_POORTWACHTER.md
- @./docs/COMPLIANCE_WKR_LEAVE.md
- @./docs/AUTH_RBAC.md
- @./docs/GDPR_AVG_LOGGING.md
- @./docs/STYLING.md
- @./docs/INSTANCE_PROVISIONING.md
- @./docs/PAYROLL_EXPORT_SPEC.md
- @./docs/USER_FLOWS_ADMIN.md
- @./docs/USER_FLOWS_EMPLOYEE.md
+ @./instructions/PROJECT_SUMMARY.md
+ @./instructions/ARCHITECTURE.md
+ @./instructions/DATA_MODEL.md
+ @./instructions/COMPLIANCE_POORTWACHTER.md
+ @./instructions/COMPLIANCE_WKR_LEAVE.md
+ @./instructions/AUTH_RBAC.md
+ @./instructions/GDPR_AVG_LOGGING.md
+ @./instructions/STYLING.md
+ @./instructions/INSTANCE_PROVISIONING.md
+ @./instructions/PAYROLL_EXPORT_SPEC.md
+ @./instructions/USER_FLOWS_ADMIN.md
+ @./instructions/USER_FLOWS_EMPLOYEE.md
