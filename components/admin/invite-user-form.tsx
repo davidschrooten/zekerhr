@@ -76,11 +76,11 @@ export function InviteUserForm() {
           <div className="grid grid-cols-2 gap-4 border-t pt-4">
             <div className="space-y-2">
               <Label htmlFor="bsn">BSN (Encrypted)</Label>
-              <Input type="text" id="bsn" name="bsn" required />
+              <Input type="text" id="bsn" name="bsn" required className="font-mono" />
             </div>
             <div className="space-y-2">
               <Label htmlFor="iban">IBAN (Encrypted)</Label>
-              <Input type="text" id="iban" name="iban" required />
+              <Input type="text" id="iban" name="iban" required className="font-mono" />
             </div>
           </div>
 

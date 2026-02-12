@@ -69,7 +69,7 @@ export default async function RoleSelectionPage() {
             href="/dashboard/employee"
             className="group block"
           >
-            <div className="relative h-full bg-card border border-border rounded-lg p-8 transition-all duration-200 hover:border-foreground hover:shadow-lg cursor-pointer">
+            <div className="relative h-full bg-card border border-border rounded-lg p-8 transition-all duration-200 hover:border-foreground cursor-pointer">
               <div className="flex flex-col h-full">
                 {/* Icon */}
                 <div className="mb-6">
@@ -102,7 +102,7 @@ export default async function RoleSelectionPage() {
             href={specializedLink}
             className="group block"
           >
-            <div className="relative h-full bg-card border border-border rounded-lg p-8 transition-all duration-200 hover:border-foreground hover:shadow-lg cursor-pointer">
+            <div className="relative h-full bg-card border border-border rounded-lg p-8 transition-all duration-200 hover:border-foreground cursor-pointer">
               <div className="flex flex-col h-full">
                 {/* Icon */}
                 <div className="mb-6">

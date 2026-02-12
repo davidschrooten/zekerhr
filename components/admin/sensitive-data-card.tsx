@@ -57,11 +57,11 @@ export function SensitiveDataCard({ userId, isEditable = false }: SensitiveDataC
           <form action={handleSave} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="bsn">BSN</Label>
-              <Input id="bsn" name="bsn" required placeholder="123456789" />
+              <Input id="bsn" name="bsn" required placeholder="123456789" className="font-mono" />
             </div>
             <div className="space-y-2">
               <Label htmlFor="iban">IBAN</Label>
-              <Input id="iban" name="iban" required placeholder="NL99BANK0123456789" />
+              <Input id="iban" name="iban" required placeholder="NL99BANK0123456789" className="font-mono" />
             </div>
             <div className="flex gap-2">
               <Button type="submit" disabled={isPending}>Save</Button>
