@@ -123,6 +123,56 @@ export type Database = {
           },
         ]
       }
+      expense_claims: {
+        Row: {
+          amount_cents: number
+          category: Database["public"]["Enums"]["expense_category"]
+          created_at: string | null
+          currency: string | null
+          date: string
+          description: string
+          id: string
+          receipt_url: string | null
+          status: Database["public"]["Enums"]["expense_status"]
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          amount_cents: number
+          category?: Database["public"]["Enums"]["expense_category"]
+          created_at?: string | null
+          currency?: string | null
+          date?: string
+          description: string
+          id?: string
+          receipt_url?: string | null
+          status?: Database["public"]["Enums"]["expense_status"]
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          amount_cents?: number
+          category?: Database["public"]["Enums"]["expense_category"]
+          created_at?: string | null
+          currency?: string | null
+          date?: string
+          description?: string
+          id?: string
+          receipt_url?: string | null
+          status?: Database["public"]["Enums"]["expense_status"]
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "expense_claims_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       leave_balances: {
         Row: {
           balance_minutes: number
@@ -414,6 +464,8 @@ export type Database = {
         | "UPDATE_ROLE"
         | "CREATE_USER"
         | "ADD_EXPENSE"
+      expense_category: "travel" | "equipment" | "meals" | "training" | "other"
+      expense_status: "pending" | "approved" | "rejected" | "paid"
       leave_status: "pending" | "approved" | "denied"
       leave_type: "wettelijk" | "bovenwettelijk"
       sickness_status:
@@ -569,6 +621,8 @@ export const Constants = {
         "CREATE_USER",
         "ADD_EXPENSE",
       ],
+      expense_category: ["travel", "equipment", "meals", "training", "other"],
+      expense_status: ["pending", "approved", "rejected", "paid"],
       leave_status: ["pending", "approved", "denied"],
       leave_type: ["wettelijk", "bovenwettelijk"],
       sickness_status: [
