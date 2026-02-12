@@ -85,6 +85,44 @@ export type Database = {
           },
         ]
       }
+      documents: {
+        Row: {
+          created_at: string | null
+          id: string
+          name: string
+          path: string
+          size_bytes: number | null
+          type: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          name: string
+          path: string
+          size_bytes?: number | null
+          type: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          name?: string
+          path?: string
+          size_bytes?: number | null
+          type?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "documents_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       leave_balances: {
         Row: {
           balance_minutes: number
