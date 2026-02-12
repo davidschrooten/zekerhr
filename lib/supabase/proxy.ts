@@ -10,6 +10,7 @@ export async function updateSession(request: NextRequest) {
   // If the env vars are not set, skip proxy check. You can remove this
   // once you setup the project.
   if (!hasEnvVars) {
+    console.log("Proxy: Missing env vars, skipping auth check.");
     return supabaseResponse;
   }
 
@@ -40,16 +41,16 @@ export async function updateSession(request: NextRequest) {
 
   // Do not run code between createServerClient and
   // supabase.auth.getClaims(). A simple mistake could make it very hard to debug
-  // issues with users being randomly logged out.
-
-  // IMPORTANT: If you remove getClaims() and you use server-side rendering
-  // with the Supabase client, your users may be randomly logged out.
-  const { data } = await supabase.auth.getClaims();
-  const user = data?.claims;
-
-  if (
-    request.nextUrl.pathname !== "/" &&
-    !user &&
+    // issues with users being randomly logged out.
+    const { data: { user }, error } = await supabase.auth.getUser();
+  
+    console.log("Proxy: Cookies present:", request.cookies.getAll().map(c => c.name));
+    console.log("Proxy: User found:", user?.email || "No user");
+    if (error) console.log("Proxy: Auth error:", error.message);
+  
+    if (
+      request.nextUrl.pathname !== "/" &&
+      !user &&
     !request.nextUrl.pathname.startsWith("/login") &&
     !request.nextUrl.pathname.startsWith("/auth")
   ) {
