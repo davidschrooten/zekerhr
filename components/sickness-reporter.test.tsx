@@ -1,7 +1,8 @@
-import { render, screen, fireEvent, act } from '@testing-library/react'
-import { describe, it, expect, vi } from 'vitest'
+import { render, screen, fireEvent } from '@testing-library/react'
 import { SicknessReporter } from './sickness-reporter'
-import * as actions from '@/app/actions/sickness'
+import { reportSickness, reportRecovery } from '@/app/actions/sickness'
+import { act } from 'react'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 
 // Mock the server actions
 vi.mock('@/app/actions/sickness', () => ({
@@ -12,41 +13,77 @@ vi.mock('@/app/actions/sickness', () => ({
 describe('SicknessReporter', () => {
   const mockUserId = 'user-123'
 
-  it('renders "I am Sick" button when not sick', () => {
-    render(<SicknessReporter userId={mockUserId} activeSickness={false} />)
-    
-    expect(screen.getByText('Report Absence')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /I am Sick/i })).toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: /I am Recovered/i })).not.toBeInTheDocument()
+  beforeEach(() => {
+    vi.clearAllMocks()
   })
 
-  it('renders "I am Recovered" button when sick', () => {
+  it('renders "Ik ben ziek" button when not sick', () => {
+    render(<SicknessReporter userId={mockUserId} activeSickness={false} />)
+    
+    expect(screen.getByText('Ziek Melden')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /Ik ben ziek/i })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /Ik ben weer beter/i })).not.toBeInTheDocument()
+  })
+
+  it('renders "Ik ben weer beter" button when sick', () => {
     render(<SicknessReporter userId={mockUserId} activeSickness={true} />)
     
-    expect(screen.getByText('Active Sickness Report')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /I am Recovered/i })).toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: /I am Sick/i })).not.toBeInTheDocument()
+    expect(screen.getByText('Ziek Gemeld')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /Ik ben weer beter/i })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /Ik ben ziek/i })).not.toBeInTheDocument()
   })
 
-  it('calls reportSickness when "I am Sick" is clicked', async () => {
+  it('calls reportSickness when "Ik ben ziek" is clicked', async () => {
     render(<SicknessReporter userId={mockUserId} activeSickness={false} />)
     
-    const button = screen.getByRole('button', { name: /I am Sick/i })
+    const button = screen.getByRole('button', { name: /Ik ben ziek/i })
     await act(async () => {
       fireEvent.click(button)
     })
     
-    expect(actions.reportSickness).toHaveBeenCalledWith(mockUserId)
+    expect(reportSickness).toHaveBeenCalledWith(mockUserId)
   })
 
-  it('calls reportRecovery when "I am Recovered" is clicked', async () => {
+  it('calls reportRecovery when "Ik ben weer beter" is clicked', async () => {
     render(<SicknessReporter userId={mockUserId} activeSickness={true} />)
     
-    const button = screen.getByRole('button', { name: /I am Recovered/i })
+    const button = screen.getByRole('button', { name: /Ik ben weer beter/i })
     await act(async () => {
       fireEvent.click(button)
     })
     
-    expect(actions.reportRecovery).toHaveBeenCalledWith(mockUserId)
+    expect(reportRecovery).toHaveBeenCalledWith(mockUserId)
+  })
+
+  it('handles reportSickness failure', async () => {
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+    ;(reportSickness as any).mockRejectedValue(new Error('Failed'))
+    
+    render(<SicknessReporter userId={mockUserId} activeSickness={false} />)
+    
+    const button = screen.getByRole('button', { name: /Ik ben ziek/i })
+    await act(async () => {
+      fireEvent.click(button)
+    })
+    
+    expect(reportSickness).toHaveBeenCalled()
+    expect(consoleSpy).toHaveBeenCalledWith('Failed to report sickness', expect.any(Error))
+    consoleSpy.mockRestore()
+  })
+
+  it('handles reportRecovery failure', async () => {
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+    ;(reportRecovery as any).mockRejectedValue(new Error('Failed'))
+    
+    render(<SicknessReporter userId={mockUserId} activeSickness={true} />)
+    
+    const button = screen.getByRole('button', { name: /Ik ben weer beter/i })
+    await act(async () => {
+      fireEvent.click(button)
+    })
+    
+    expect(reportRecovery).toHaveBeenCalled()
+    expect(consoleSpy).toHaveBeenCalledWith('Failed to report recovery', expect.any(Error))
+    consoleSpy.mockRestore()
   })
 })

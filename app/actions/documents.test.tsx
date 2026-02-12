@@ -75,6 +75,58 @@ describe('documents actions', () => {
     expect(createSignedUrlMock).toHaveBeenCalledWith('sick-user-1/log-1/doc.pdf')
   })
 
+  it('getUploadUrl throws if unauthorized role', async () => {
+    mockSupabase.auth.getUser.mockResolvedValue({ data: { user: { id: 'emp-1' } } })
+    
+    mockSupabase.from.mockReturnValueOnce({
+      select: vi.fn().mockReturnValue({
+        eq: vi.fn().mockReturnValue({
+          single: vi.fn().mockResolvedValue({ data: { role: 'employee' } })
+        })
+      })
+    })
+
+    await expect(getUploadUrl('log-1', 'doc.pdf', 'application/pdf'))
+      .rejects.toThrow('Insufficient permissions')
+  })
+
+  it('getUploadUrl creates bucket if missing', async () => {
+    // 1. Auth
+    mockSupabase.auth.getUser.mockResolvedValue({ data: { user: { id: 'hr-1' } } })
+    
+    // 2. Profile & Log
+    mockSupabase.from
+      .mockReturnValueOnce({
+        select: vi.fn().mockReturnValue({
+          eq: vi.fn().mockReturnValue({
+            single: vi.fn().mockResolvedValue({ data: { role: 'hr_admin' } })
+          })
+        })
+      })
+      .mockReturnValueOnce({
+        select: vi.fn().mockReturnValue({
+          eq: vi.fn().mockReturnValue({
+            single: vi.fn().mockResolvedValue({ data: { user_id: 'sick-user-1' } })
+          })
+        })
+      })
+
+    // 3. Bucket check FAILS (missing)
+    mockAdminSupabase.storage.getBucket.mockResolvedValue({ error: { message: 'Not found' } })
+    
+    // 4. Create Bucket
+    mockAdminSupabase.storage.createBucket.mockResolvedValue({ data: {}, error: null })
+
+    // 5. Signed URL
+    mockAdminSupabase.storage.from.mockReturnValue({ 
+      createSignedUploadUrl: vi.fn().mockResolvedValue({ data: { signedUrl: 'url' }, error: null }) 
+    })
+
+    await getUploadUrl('log-1', 'doc.pdf', 'application/pdf')
+
+    expect(mockAdminSupabase.storage.createBucket).toHaveBeenCalledWith('sickness-documents', { public: false })
+  })
+
   it('saveDocumentRef updates log', async () => {
     // 1. Select
     const selectMock = {

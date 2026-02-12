@@ -1,17 +1,16 @@
 import { render, screen } from '@testing-library/react'
+import { describe, it, expect, vi } from 'vitest'
 import Home from './page'
-import { describe, it, expect } from 'vitest'
+import { redirect } from 'next/navigation'
+
+// Mock the redirect function
+vi.mock('next/navigation', () => ({
+  redirect: vi.fn(),
+}))
 
 describe('Home Page', () => {
-  it('renders the title', () => {
+  it('redirects to login', () => {
     render(<Home />)
-    const title = screen.getByText(/ZekerHR/i)
-    expect(title).toBeInTheDocument()
-  })
-
-  it('renders login link', () => {
-    render(<Home />)
-    const loginLink = screen.getByRole('link', { name: /Login/i })
-    expect(loginLink).toHaveAttribute('href', '/auth/login')
+    expect(redirect).toHaveBeenCalledWith('/auth/login')
   })
 })
