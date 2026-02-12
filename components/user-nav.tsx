@@ -26,9 +26,11 @@ interface UserNavProps {
     full_name?: string;
     initials?: string;
   };
+  align?: "start" | "end" | "center";
+  showName?: boolean;
 }
 
-export function UserNav({ user }: UserNavProps) {
+export function UserNav({ user, align = "end", showName = false }: UserNavProps) {
   const router = useRouter();
   const supabase = createClient();
 
@@ -41,14 +43,19 @@ export function UserNav({ user }: UserNavProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+        <Button variant="ghost" className={`relative h-8 ${showName ? 'w-auto px-2 gap-2' : 'w-8 rounded-full'}`}>
           <Avatar className="h-8 w-8">
             <AvatarImage src="/avatars/01.png" alt={user.email} />
             <AvatarFallback>{user.initials || "U"}</AvatarFallback>
           </Avatar>
+          {showName && (
+             <div className="flex flex-col items-start text-sm">
+                 <span className="font-medium">{user.full_name || "User"}</span>
+             </div>
+          )}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56" align="end" forceMount>
+      <DropdownMenuContent className="w-56" align={align} forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">{user.full_name || "User"}</p>

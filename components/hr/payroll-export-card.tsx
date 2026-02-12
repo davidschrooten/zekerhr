@@ -20,7 +20,7 @@ export function PayrollExportCard() {
         
         // Generate CSV
         const headers = ["Type", "User", "Email", "Date", "Details"];
-        const rows = [];
+        const rows: string[][] = [];
 
         // New Hires
         data.newHires.forEach(h => {
@@ -39,7 +39,7 @@ export function PayrollExportCard() {
             "TERMINATION",
             t.profiles?.full_name || "N/A",
             t.profiles?.email || "N/A",
-            t.end_date,
+            t.end_date || "",
             "Contract Ended"
           ]);
         });
@@ -52,7 +52,7 @@ export function PayrollExportCard() {
             type,
             s.profiles?.full_name || "N/A",
             s.profiles?.email || "N/A",
-            date,
+            date || "",
             `Status: ${s.status}`
           ]);
         });

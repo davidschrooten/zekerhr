@@ -2,16 +2,20 @@ import { EmployeeMetrics } from '@/components/employee-metrics'
 import { EmployeeTasks } from '@/components/employee-tasks'
 import { EmployeeActivity } from '@/components/employee-activity'
 import { createClient } from '@/lib/supabase/server'
+import { getEmployeeMetrics, getRecentActivity } from '@/app/actions/employee'
 
 export default async function EmployeeDashboardPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("full_name")
-    .eq("id", user?.id!)
-    .single()
+  
+  // Parallel data fetching
+  const [profileResponse, metrics, recentActivity] = await Promise.all([
+    supabase.from("profiles").select("full_name").eq("id", user?.id!).single(),
+    getEmployeeMetrics(),
+    getRecentActivity()
+  ]);
 
+  const profile = profileResponse.data;
   const displayName = profile?.full_name?.split(' ')[0] || user?.email?.split('@')[0] || 'Collega'
 
   return (
@@ -27,15 +31,18 @@ export default async function EmployeeDashboardPage() {
       </div>
 
       {/* Metrics Grid */}
-      <EmployeeMetrics />
+      <EmployeeMetrics metrics={metrics} />
 
       {/* Two Column Layout */}
       <div className="mt-8 grid gap-6 lg:grid-cols-2">
         {/* Tasks */}
-        <EmployeeTasks />
+        <EmployeeTasks 
+          activeSickness={metrics.activeSickness} 
+          profileComplete={metrics.profileComplete}
+        />
 
         {/* Recent Activity */}
-        <EmployeeActivity />
+        <EmployeeActivity activities={recentActivity} />
       </div>
     </div>
   )

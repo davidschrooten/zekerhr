@@ -1,33 +1,38 @@
 import { Clock, Calendar, AlertCircle, FileText } from 'lucide-react'
 import { Card } from '@/components/ui/card'
+import { EmployeeMetricsData } from '@/app/actions/employee'
 
-export function EmployeeMetrics() {
-  const metrics = [
+interface EmployeeMetricsProps {
+  metrics: EmployeeMetricsData;
+}
+
+export function EmployeeMetrics({ metrics }: EmployeeMetricsProps) {
+  const data = [
     {
       label: 'Verlof Saldo',
-      value: '18.5 dagen',
+      value: `${metrics.leaveBalance.total} ${metrics.leaveBalance.unit === 'days' ? 'dagen' : 'uur'}`,
       description: 'Beschikbaar verlof',
       icon: Calendar,
       trend: null,
     },
     {
       label: 'Verzuim',
-      value: '0 dagen',
-      description: 'Dit jaar',
+      value: metrics.activeSickness ? 'Ziek gemeld' : 'Niet ziek',
+      description: metrics.activeSickness ? 'Beterschap!' : 'Alles goed',
       icon: AlertCircle,
-      status: 'success',
+      status: metrics.activeSickness ? 'warning' : 'success',
     },
     {
-      label: 'Uren deze maand',
-      value: '152 uur',
-      description: '4 uur vandaag',
+      label: 'Contract Uren',
+      value: `${metrics.contractHours} uur`,
+      description: 'Per week',
       icon: Clock,
       trend: null,
     },
     {
       label: 'Documenten',
-      value: '12',
-      description: '2 nieuw',
+      value: `${metrics.documentsCount}`,
+      description: 'Totaal beschikbaar',
       icon: FileText,
       trend: null,
     },
@@ -35,7 +40,7 @@ export function EmployeeMetrics() {
 
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      {metrics.map((metric) => {
+      {data.map((metric) => {
         const Icon = metric.icon
         return (
           <Card
@@ -47,8 +52,13 @@ export function EmployeeMetrics() {
                 <Icon className="h-4 w-4 text-muted-foreground" />
               </div>
               {metric.status === 'success' && (
-                <span className="text-xs font-medium text-[rgb(16_185_129)]">
+                <span className="text-xs font-medium text-emerald-600 dark:text-emerald-500">
                   ✓ Goed
+                </span>
+              )}
+              {metric.status === 'warning' && (
+                <span className="text-xs font-medium text-amber-600 dark:text-amber-500">
+                  ⚠ Let op
                 </span>
               )}
             </div>
