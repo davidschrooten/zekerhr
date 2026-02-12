@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Plus } from "lucide-react";
+import { Plus, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -13,8 +13,29 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { getExpenses } from "@/app/actions/expenses";
 
-export default async function ExpensesPage() {
-  const expenses = await getExpenses();
+export default async function ExpensesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}) {
+  const params = await searchParams;
+  const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth() + 1;
+
+  const year = params.year ? parseInt(params.year as string) : currentYear;
+  const month = params.month ? parseInt(params.month as string) : currentMonth;
+
+  const expenses = await getExpenses(month, year);
+
+  // Calculate previous and next month dates
+  const currentDate = new Date(year, month - 1);
+  const prevDate = new Date(year, month - 2);
+  const nextDate = new Date(year, month);
+
+  const monthNames = [
+    "Januari", "Februari", "Maart", "April", "Mei", "Juni",
+    "Juli", "Augustus", "September", "Oktober", "November", "December"
+  ];
 
   return (
     <div className="mx-auto max-w-screen-2xl px-6 py-8">
@@ -35,11 +56,30 @@ export default async function ExpensesPage() {
         </Button>
       </div>
 
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-lg font-medium">
+            Overzicht {monthNames[month - 1]} {year}
+        </h2>
+        <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" asChild>
+                <Link href={`/dashboard/employee/expenses?month=${prevDate.getMonth() + 1}&year=${prevDate.getFullYear()}`}>
+                    <ChevronLeft className="h-4 w-4" />
+                </Link>
+            </Button>
+            <Button variant="outline" size="sm" disabled={nextDate > new Date()} asChild={!(nextDate > new Date())}>
+                {nextDate > new Date() ? (
+                    <span><ChevronRight className="h-4 w-4" /></span>
+                ) : (
+                    <Link href={`/dashboard/employee/expenses?month=${nextDate.getMonth() + 1}&year=${nextDate.getFullYear()}`}>
+                        <ChevronRight className="h-4 w-4" />
+                    </Link>
+                )}
+            </Button>
+        </div>
+      </div>
+
       <Card>
-        <CardHeader>
-          <CardTitle>Mijn Declaraties</CardTitle>
-        </CardHeader>
-        <CardContent>
+        <CardContent className="p-0">
           <Table>
             <TableHeader>
               <TableRow>
@@ -81,8 +121,8 @@ export default async function ExpensesPage() {
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={5} className="text-center text-muted-foreground">
-                    Geen declaraties gevonden.
+                  <TableCell colSpan={5} className="text-center text-muted-foreground h-24">
+                    Geen declaraties gevonden voor deze maand.
                   </TableCell>
                 </TableRow>
               )}

@@ -1,15 +1,20 @@
 import { vi, describe, it, expect, beforeEach, Mock } from 'vitest'
 import { submitExpense, getExpenses } from './expenses'
 import { createClient } from '@/lib/supabase/server'
+import { redirect } from 'next/navigation'
 
 // Mock Supabase
 vi.mock('@/lib/supabase/server', () => ({
   createClient: vi.fn(),
 }))
 
-// Mock revalidatePath
+// Mock revalidatePath and redirect
 vi.mock('next/cache', () => ({
   revalidatePath: vi.fn(),
+}))
+
+vi.mock('next/navigation', () => ({
+  redirect: vi.fn(),
 }))
 
 describe('expenses actions', () => {
@@ -24,14 +29,17 @@ describe('expenses actions', () => {
       from: vi.fn(() => ({
         select: vi.fn(() => ({
           eq: vi.fn(() => ({
-            order: vi.fn(),
+            gte: vi.fn(() => ({
+              lte: vi.fn(() => ({
+                order: vi.fn(),
+              })),
+            })),
           })),
         })),
         insert: vi.fn(),
       })),
     }
     
-    // Fix: Cast createClient to Mock
     ;(createClient as unknown as Mock).mockResolvedValue(mockSupabase)
   })
 
@@ -39,7 +47,6 @@ describe('expenses actions', () => {
     it('successfully submits an expense', async () => {
       // Setup
       mockSupabase.auth.getUser.mockResolvedValue({ data: { user: { id: 'user-1' } } })
-      // Setup chain for insert
       const insertMock = vi.fn().mockResolvedValue({ error: null })
       mockSupabase.from.mockReturnValue({ insert: insertMock })
 
@@ -62,6 +69,7 @@ describe('expenses actions', () => {
         category: 'meals',
         status: 'pending',
       })
+      expect(redirect).toHaveBeenCalledWith('/dashboard/employee/expenses')
     })
 
     it('throws error if user not authenticated', async () => {
@@ -73,25 +81,29 @@ describe('expenses actions', () => {
   })
 
   describe('getExpenses', () => {
-    it('fetches expenses for the user', async () => {
+    it('fetches expenses for the user for a specific month', async () => {
       // Setup
       mockSupabase.auth.getUser.mockResolvedValue({ data: { user: { id: 'user-1' } } })
       const mockExpenses = [{ id: '1', description: 'Test' }]
       
       const orderMock = vi.fn().mockResolvedValue({ data: mockExpenses, error: null })
-      const eqMock = vi.fn(() => ({ order: orderMock }))
+      const lteMock = vi.fn(() => ({ order: orderMock }))
+      const gteMock = vi.fn(() => ({ lte: lteMock }))
+      const eqMock = vi.fn(() => ({ gte: gteMock }))
       const selectMock = vi.fn(() => ({ eq: eqMock }))
       
       mockSupabase.from.mockReturnValue({ select: selectMock })
 
       // Execute
-      const result = await getExpenses()
+      const result = await getExpenses(2, 2026) // Feb 2026
 
       // Verify
       expect(result).toEqual(mockExpenses)
       expect(mockSupabase.from).toHaveBeenCalledWith('expense_claims')
       expect(selectMock).toHaveBeenCalledWith('*')
       expect(eqMock).toHaveBeenCalledWith('user_id', 'user-1')
+      expect(gteMock).toHaveBeenCalledWith('date', '2026-02-01')
+      expect(lteMock).toHaveBeenCalledWith('date', '2026-02-28')
     })
   })
 })

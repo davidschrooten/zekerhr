@@ -2,17 +2,24 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
-export async function getExpenses() {
+export async function getExpenses(month: number, year: number) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) throw new Error("Unauthorized");
 
+  // Calculate start and end date for the month
+  const startDate = new Date(Date.UTC(year, month - 1, 1)).toISOString().split('T')[0];
+  const endDate = new Date(Date.UTC(year, month, 0)).toISOString().split('T')[0];
+
   const { data, error } = await supabase
     .from("expense_claims")
     .select("*")
     .eq("user_id", user.id)
+    .gte("date", startDate)
+    .lte("date", endDate)
     .order("date", { ascending: false });
 
   if (error) {
@@ -53,4 +60,5 @@ export async function submitExpense(formData: FormData) {
   }
 
   revalidatePath("/dashboard/employee/expenses");
+  redirect("/dashboard/employee/expenses");
 }

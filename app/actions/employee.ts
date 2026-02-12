@@ -148,6 +148,27 @@ export async function getRecentActivity(): Promise<ActivityItem[]> {
     });
   }
 
+  // 3. Expense Claims
+  const { data: expenseClaims } = await supabase
+    .from("expense_claims")
+    .select("*")
+    .eq("user_id", user.id)
+    .order("created_at", { ascending: false })
+    .limit(5);
+
+  if (expenseClaims) {
+    expenseClaims.forEach((claim: any) => {
+      activities.push({
+        id: `expense-${claim.id}`,
+        type: 'other',
+        title: 'Declaratie Ingediend',
+        description: `${claim.description} - € ${(claim.amount_cents / 100).toFixed(2)}`,
+        date: claim.date,
+        status: claim.status
+      });
+    });
+  }
+
   // Sort by date desc
   return activities.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, 5);
 }
