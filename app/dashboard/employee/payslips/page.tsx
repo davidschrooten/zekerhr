@@ -36,12 +36,14 @@ export default async function PayslipsPage() {
         </p>
       </div>
 
-      <Alert>
-        <Info className="h-4 w-4" />
-        <AlertTitle>Informatie</AlertTitle>
-        <AlertDescription>
-          Loonstroken worden elke maand rond de 25e toegevoegd. Jaaropgaven zijn hier ook te vinden.
-        </AlertDescription>
+      <Alert className="flex items-start gap-4">
+        <Info className="h-4 w-4 mt-0.5 shrink-0" />
+        <div className="grid gap-1">
+          <AlertTitle className="col-start-auto">Informatie</AlertTitle>
+          <AlertDescription className="col-start-auto">
+            Loonstroken worden elke maand rond de 25e toegevoegd. Jaaropgaven zijn hier ook te vinden.
+          </AlertDescription>
+        </div>
       </Alert>
 
       <Card>

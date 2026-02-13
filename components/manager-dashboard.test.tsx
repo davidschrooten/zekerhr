@@ -77,6 +77,7 @@ describe('SicknessOverview', () => {
       recovery_date: null,
       status: 'reported' as const,
       uwv_notification_sent: false,
+      documents: null,
       created_at: null,
       updated_at: null,
       profiles: { full_name: 'Jane Sick', email: 'jane@example.com' }

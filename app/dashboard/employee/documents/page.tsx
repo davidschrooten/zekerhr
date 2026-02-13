@@ -13,6 +13,7 @@ export default async function DocumentsPage() {
     .from("documents")
     .select("*")
     .eq("user_id", user.id)
+    .neq("type", "payslip")
     .order("created_at", { ascending: false });
 
   // Group by Type (optional, but let's just list them for now)
@@ -22,7 +23,7 @@ export default async function DocumentsPage() {
       <div>
         <h1 className="text-3xl font-semibold tracking-tight">Documenten</h1>
         <p className="text-muted-foreground mt-2">
-          Bekijk je loonstroken en contracten.
+          Bekijk je contracten en overige documenten.
         </p>
       </div>
 
@@ -30,7 +31,7 @@ export default async function DocumentsPage() {
         <CardHeader>
           <CardTitle>Mijn Documenten</CardTitle>
           <CardDescription>
-            Recente loonstroken en andere documenten.
+            Overzicht van je documenten.
           </CardDescription>
         </CardHeader>
         <CardContent>
