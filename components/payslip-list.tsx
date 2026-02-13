@@ -78,25 +78,27 @@ export function PayslipList({ documents }: PayslipListProps) {
   return (
     <div className="space-y-4">
       {/* Year Navigation */}
-      <div className="flex items-center justify-between bg-muted/30 p-2 rounded-md border">
-        <div className="w-10">
-          {hasPrevious && (
-            <Button variant="ghost" size="icon" onClick={() => handleYearChange('prev')}>
-              <ChevronLeft className="h-4 w-4" />
-            </Button>
-          )}
-        </div>
-        
-        <div className="font-semibold text-sm">
-          Jaar: {selectedYear}
-        </div>
-
-        <div className="w-10">
-          {hasNext && (
-            <Button variant="ghost" size="icon" onClick={() => handleYearChange('next')}>
-              <ChevronRight className="h-4 w-4" />
-            </Button>
-          )}
+      <div className="flex items-center justify-between mb-4 px-1">
+        <h3 className="text-lg font-medium">
+          Overzicht {selectedYear}
+        </h3>
+        <div className="flex items-center gap-2">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={() => handleYearChange('prev')}
+            disabled={!hasPrevious}
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={() => handleYearChange('next')}
+            disabled={!hasNext}
+          >
+            <ChevronRight className="h-4 w-4" />
+          </Button>
         </div>
       </div>
 
