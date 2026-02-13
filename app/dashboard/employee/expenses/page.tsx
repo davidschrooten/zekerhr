@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { getExpenses } from "@/app/actions/expenses";
+import { AnimatePage } from "@/components/animate-page";
 
 export default async function ExpensesPage({
   searchParams,
@@ -38,7 +39,7 @@ export default async function ExpensesPage({
   ];
 
   return (
-    <div className="mx-auto max-w-screen-2xl px-6 py-8">
+    <AnimatePage className="mx-auto max-w-screen-2xl px-6 py-8">
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-3xl font-semibold tracking-tight text-foreground">
@@ -130,6 +131,6 @@ export default async function ExpensesPage({
           </Table>
         </CardContent>
       </Card>
-    </div>
+    </AnimatePage>
   );
 }

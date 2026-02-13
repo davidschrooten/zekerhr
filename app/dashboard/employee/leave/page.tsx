@@ -3,6 +3,7 @@ import { LeaveRequestForm } from "@/components/leave-request-form";
 import { LeaveBalanceSummary } from "@/components/leave-balance-summary";
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { AnimatePage } from "@/components/animate-page";
 
 export default async function LeavePage() {
   const supabase = await createClient();
@@ -26,7 +27,7 @@ export default async function LeavePage() {
     .order("created_at", { ascending: false });
 
   return (
-    <div className="mx-auto max-w-screen-2xl px-6 py-8 space-y-8">
+    <AnimatePage className="mx-auto max-w-screen-2xl px-6 py-8 space-y-8">
       <div>
         <h1 className="text-3xl font-semibold tracking-tight">Verlof</h1>
         <p className="text-muted-foreground mt-2">
@@ -90,6 +91,6 @@ export default async function LeavePage() {
             </Card>
         </div>
       </div>
-    </div>
+    </AnimatePage>
   );
 }

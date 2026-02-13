@@ -3,6 +3,7 @@ import { PayslipList } from "@/components/payslip-list";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Info } from "lucide-react";
+import { AnimatePage } from "@/components/animate-page";
 
 export default async function PayslipsPage() {
   const supabase = await createClient();
@@ -28,7 +29,7 @@ export default async function PayslipsPage() {
   }
 
   return (
-    <div className="mx-auto max-w-screen-2xl px-6 py-8 space-y-8">
+    <AnimatePage className="mx-auto max-w-screen-2xl px-6 py-8 space-y-8">
       <div>
         <h1 className="text-3xl font-semibold tracking-tight">Loonstroken</h1>
         <p className="text-muted-foreground mt-2">
@@ -57,6 +58,6 @@ export default async function PayslipsPage() {
           <PayslipList documents={documents || []} />
         </CardContent>
       </Card>
-    </div>
+    </AnimatePage>
   );
 }

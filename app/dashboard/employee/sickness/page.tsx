@@ -3,6 +3,7 @@ import { SicknessReporter } from "@/components/sickness-reporter";
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
 import { format } from "date-fns";
 import { nl } from "date-fns/locale";
+import { AnimatePage } from "@/components/animate-page";
 
 export default async function SicknessPage() {
   const supabase = await createClient();
@@ -21,7 +22,7 @@ export default async function SicknessPage() {
   const activeSickness = logs?.find(log => !log.recovery_date);
 
   return (
-    <div className="mx-auto max-w-screen-2xl px-6 py-8 space-y-8">
+    <AnimatePage className="mx-auto max-w-screen-2xl px-6 py-8 space-y-8">
       <div>
         <h1 className="text-3xl font-semibold tracking-tight">Verzuim</h1>
         <p className="text-muted-foreground mt-2">
@@ -81,6 +82,6 @@ export default async function SicknessPage() {
             </Card>
         </div>
       </div>
-    </div>
+    </AnimatePage>
   );
 }

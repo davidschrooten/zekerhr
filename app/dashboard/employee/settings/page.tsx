@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { User, Lock, Mail, Building, Briefcase } from "lucide-react";
+import { AnimatePage } from "@/components/animate-page";
 
 export default async function EmployeeSettingsPage() {
   const supabase = await createClient();
@@ -28,7 +29,7 @@ export default async function EmployeeSettingsPage() {
     : user.email?.substring(0, 2).toUpperCase();
 
   return (
-    <div className="mx-auto max-w-screen-2xl px-6 py-8 space-y-8">
+    <AnimatePage className="mx-auto max-w-screen-2xl px-6 py-8 space-y-8">
       <div>
         <h1 className="text-3xl font-semibold tracking-tight">Profiel & Instellingen</h1>
         <p className="text-muted-foreground mt-2">
@@ -143,6 +144,6 @@ export default async function EmployeeSettingsPage() {
 
         </div>
       </div>
-    </div>
+    </AnimatePage>
   );
 }
