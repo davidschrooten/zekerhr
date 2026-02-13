@@ -76,10 +76,9 @@ export async function getEmployeeMetrics(): Promise<EmployeeMetricsData> {
   const contract = contractRes.data;
   const profile = profileRes.data;
 
-  // 4. Fetch Documents Count (Mock for now, or count contracts)
-  // We can count contracts as documents for now.
-  const { count: contractsCount } = await supabase
-    .from("contracts")
+  // 4. Fetch Documents Count
+  const { count: documentsCount } = await supabase
+    .from("documents")
     .select("*", { count: 'exact', head: true })
     .eq("user_id", user.id);
 
@@ -92,7 +91,7 @@ export async function getEmployeeMetrics(): Promise<EmployeeMetricsData> {
     },
     activeSickness: !!activeSickness,
     contractHours: contract ? Math.round(contract.fte * 40) : 40, // Assuming 40h is 1.0 FTE
-    documentsCount: contractsCount || 0,
+    documentsCount: documentsCount || 0,
     profileComplete: !!profile?.full_name
   };
 }
@@ -165,6 +164,28 @@ export async function getRecentActivity(): Promise<ActivityItem[]> {
         description: `${claim.description} - € ${(claim.amount_cents / 100).toFixed(2)}`,
         date: claim.date,
         status: claim.status
+      });
+    });
+  }
+
+  // 4. Recent Documents (Payslips)
+  const { data: documents } = await supabase
+    .from("documents")
+    .select("*")
+    .eq("user_id", user.id)
+    .eq("type", "payslip")
+    .order("created_at", { ascending: false })
+    .limit(5);
+
+  if (documents) {
+    documents.forEach((doc) => {
+      activities.push({
+        id: `doc-${doc.id}`,
+        type: 'document',
+        title: 'Nieuwe Loonstrook',
+        description: doc.name,
+        date: doc.created_at!,
+        status: 'available'
       });
     });
   }
