@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation'
 
 const tabs = [
   { id: 'overzicht', label: 'Overzicht', href: '/dashboard/employee' },
+  { id: 'loonstroken', label: 'Loonstroken', href: '/dashboard/employee/payslips' },
   { id: 'verlof', label: 'Verlof', href: '/dashboard/employee/leave' },
   { id: 'declaraties', label: 'Declaraties', href: '/dashboard/employee/expenses' },
   { id: 'verzuim', label: 'Verzuim', href: '/dashboard/employee/sickness' },

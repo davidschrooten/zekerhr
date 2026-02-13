@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { revalidatePath } from "next/cache";
 
-export async function getUploadUrl(sicknessLogId: string, filename: string, fileType: string) {
+export async function getUploadUrl(sicknessLogId: string, filename: string, _fileType: string) {
   const supabase = await createClient();
   const supabaseAdmin = createAdminClient();
 
@@ -52,13 +52,33 @@ export async function getUploadUrl(sicknessLogId: string, filename: string, file
   return { signedUrl: data.signedUrl, path, token: data.token };
 }
 
-export async function saveDocumentRef(sicknessLogId: string, name: string, path: string, type: string) {
+export async function getDownloadUrl(documentId: string) {
   const supabase = await createClient();
-  // We use normal client here as RLS on sickness_logs allows update?
-  // Check RLS policies. Manager/HR should be able to update.
-  // Actually, we might need to update RLS or use Admin client if RLS restricts 'documents' column update.
-  // Let's use Admin client to be safe for this specific column update if policies aren't granular.
-  
+  const supabaseAdmin = createAdminClient();
+
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) throw new Error("Unauthorized");
+
+  // Verify access via RLS
+  const { data: document } = await supabase
+    .from("documents")
+    .select("path")
+    .eq("id", documentId)
+    .single();
+
+  if (!document) throw new Error("Document not found or access denied");
+
+  // Generate signed URL (valid for 1 hour)
+  const { data, error } = await supabaseAdmin.storage
+    .from("secure-documents") // Assumption: bucket name is 'secure-documents'
+    .createSignedUrl(document.path, 3600);
+
+  if (error) throw new Error("Failed to generate download URL");
+
+  return data.signedUrl;
+}
+
+export async function saveDocumentRef(sicknessLogId: string, name: string, path: string, type: string) {
   const supabaseAdmin = createAdminClient();
 
   const { data: log } = await supabaseAdmin
@@ -69,7 +89,7 @@ export async function saveDocumentRef(sicknessLogId: string, name: string, path:
 
   if (!log) throw new Error("Log not found");
 
-  const currentDocs = (log.documents as any[]) || [];
+  const currentDocs = (log.documents as Array<{ name: string; path: string; type: string; uploadedAt: string }>) || [];
   const newDoc = { name, path, type, uploadedAt: new Date().toISOString() };
   
   const { error } = await supabaseAdmin
