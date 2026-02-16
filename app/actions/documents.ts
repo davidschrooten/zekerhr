@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { revalidatePath } from "next/cache";
 
-export async function getUploadUrl(sicknessLogId: string, filename: string, _fileType: string) {
+export async function getUploadUrl(sicknessLogId: string, filename: string) {
   const supabase = await createClient();
   const supabaseAdmin = createAdminClient();
 

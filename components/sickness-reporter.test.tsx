@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import { SicknessReporter } from './sickness-reporter'
 import { reportSickness, reportRecovery } from '@/app/actions/sickness'
 import { act } from 'react'
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect, vi, beforeEach, Mock } from 'vitest'
 
 // Mock the server actions
 vi.mock('@/app/actions/sickness', () => ({
@@ -57,7 +57,7 @@ describe('SicknessReporter', () => {
 
   it('handles reportSickness failure', async () => {
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
-    ;(reportSickness as any).mockRejectedValue(new Error('Failed'))
+    ;(reportSickness as unknown as Mock).mockRejectedValue(new Error('Failed'))
     
     render(<SicknessReporter userId={mockUserId} activeSickness={false} />)
     
@@ -73,7 +73,7 @@ describe('SicknessReporter', () => {
 
   it('handles reportRecovery failure', async () => {
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
-    ;(reportRecovery as any).mockRejectedValue(new Error('Failed'))
+    ;(reportRecovery as unknown as Mock).mockRejectedValue(new Error('Failed'))
     
     render(<SicknessReporter userId={mockUserId} activeSickness={true} />)
     

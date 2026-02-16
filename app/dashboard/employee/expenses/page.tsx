@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Plus, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -29,7 +29,6 @@ export default async function ExpensesPage({
   const expenses = await getExpenses(month, year);
 
   // Calculate previous and next month dates
-  const currentDate = new Date(year, month - 1);
   const prevDate = new Date(year, month - 2);
   const nextDate = new Date(year, month);
 
@@ -93,7 +92,7 @@ export default async function ExpensesPage({
             </TableHeader>
             <TableBody>
               {expenses && expenses.length > 0 ? (
-                expenses.map((expense: any) => (
+                expenses.map((expense) => (
                   <TableRow key={expense.id}>
                     <TableCell>{new Date(expense.date).toLocaleDateString()}</TableCell>
                     <TableCell>{expense.description}</TableCell>

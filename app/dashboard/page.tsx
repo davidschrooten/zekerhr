@@ -58,7 +58,7 @@ export default async function RoleSelectionPage() {
             Welcome to ZekerHR
           </h1>
           <p className="text-muted-foreground text-lg">
-            Select how you'd like to continue
+            Select how you&apos;d like to continue
           </p>
         </div>
 

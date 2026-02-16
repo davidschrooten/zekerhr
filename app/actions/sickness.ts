@@ -2,8 +2,7 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-import { logAction } from "@/app/actions/audit";
+import { logAction } from "./audit";
 
 export async function reportSickness(userId: string) {
   const supabase = await createClient();

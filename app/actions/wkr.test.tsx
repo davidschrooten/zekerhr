@@ -27,9 +27,6 @@ describe('getWKRStatus', () => {
 
   it('calculates budget correctly (Tier 1)', async () => {
     // Wage bill: 300,000 (below 400k) -> 2% = 6,000
-    const mockContracts = [
-        { salary_gross_cents: 30000000 / 12.96 } // roughly 231k per month * 12.96 approx 300k
-    ]
     
     const monthlySalaryCents = 2314814
     

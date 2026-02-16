@@ -2,10 +2,9 @@
 
 import { useTransition } from "react";
 import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
-import { AlertTriangleIcon, CheckCircle2 } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { reportSickness, reportRecovery } from "@/app/actions/sickness";
+import { AlertTriangle } from "lucide-react";
 
 interface SicknessReporterProps {
   userId: string;
@@ -40,7 +39,7 @@ export function SicknessReporter({ userId, activeSickness }: SicknessReporterPro
       <Card className="border-amber-200 bg-amber-50 dark:border-amber-900 dark:bg-amber-950/10">
         <CardHeader>
           <div className="flex items-center gap-2 text-amber-600 dark:text-amber-500">
-            <AlertTriangleIcon className="h-5 w-5" />
+            <AlertTriangle className="h-5 w-5" />
             <CardTitle>Ziek Gemeld</CardTitle>
           </div>
           <CardDescription className="text-amber-700 dark:text-amber-400">

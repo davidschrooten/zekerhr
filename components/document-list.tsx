@@ -1,6 +1,6 @@
 "use client";
 
-import { FileText, Download, File } from "lucide-react";
+import { FileText, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 import { nl } from "date-fns/locale";

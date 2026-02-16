@@ -33,8 +33,12 @@ export default function LoginPage() {
       // Redirect to the main dashboard which handles role-based routing
       // (e.g. shows role selection for admins, redirects employees directly)
       router.push('/dashboard')
-    } catch (error: any) {
-      setError(error.message || 'Er is een fout opgetreden bij het inloggen')
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message)
+      } else {
+        setError('Er is een fout opgetreden bij het inloggen')
+      }
     } finally {
       setIsLoading(false)
     }

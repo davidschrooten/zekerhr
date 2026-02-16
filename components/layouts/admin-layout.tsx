@@ -5,15 +5,6 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { UserNav } from "@/components/user-nav";
 import { Button } from "@/components/ui/button";
-import { 
-  LayoutDashboardIcon, 
-  UsersIcon, 
-  ShieldCheckIcon, 
-  FileTextIcon, 
-  SettingsIcon,
-  BriefcaseIcon,
-  LogOutIcon
-} from "lucide-react";
 
 interface SidebarItem {
   title: string;
@@ -23,7 +14,11 @@ interface SidebarItem {
 
 interface AdminLayoutProps {
   children: React.ReactNode;
-  user: any;
+  user: {
+    email?: string;
+    full_name?: string;
+    initials?: string;
+  };
   title: string;
   items: SidebarItem[];
 }

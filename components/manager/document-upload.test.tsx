@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, vi, beforeEach, afterEach, Mock } from 'vitest'
 import { DocumentUpload } from './document-upload'
 import { getUploadUrl, saveDocumentRef } from '@/app/actions/documents'
 
@@ -49,15 +49,15 @@ describe('DocumentUpload', () => {
     fireEvent.change(input, { target: { files: [file] } })
     
     // Mock successful actions
-    ;(getUploadUrl as any).mockResolvedValue({ signedUrl: 'http://upload-url', path: 'path/to/file' })
-    ;(global.fetch as any).mockResolvedValue({ ok: true })
-    ;(saveDocumentRef as any).mockResolvedValue({})
+    ;(getUploadUrl as unknown as Mock).mockResolvedValue({ signedUrl: 'http://upload-url', path: 'path/to/file' })
+    ;(global.fetch as unknown as Mock).mockResolvedValue({ ok: true })
+    ;(saveDocumentRef as unknown as Mock).mockResolvedValue({})
 
     const uploadButton = screen.getByRole('button', { name: /Upload/i })
     fireEvent.click(uploadButton)
 
     await waitFor(() => {
-      expect(getUploadUrl).toHaveBeenCalledWith(mockSicknessLogId, 'test.pdf', 'application/pdf')
+      expect(getUploadUrl).toHaveBeenCalledWith(mockSicknessLogId, 'test.pdf')
       expect(global.fetch).toHaveBeenCalledWith('http://upload-url', expect.objectContaining({
         method: 'PUT',
         body: file,
@@ -76,7 +76,7 @@ describe('DocumentUpload', () => {
     fireEvent.change(input, { target: { files: [file] } })
     
     // Mock failure at getUploadUrl
-    ;(getUploadUrl as any).mockRejectedValue(new Error('Failed to get URL'))
+    ;(getUploadUrl as unknown as Mock).mockRejectedValue(new Error('Failed to get URL'))
 
     const uploadButton = screen.getByRole('button', { name: /Upload/i })
     fireEvent.click(uploadButton)

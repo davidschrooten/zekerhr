@@ -7,16 +7,20 @@ import { getEmployeeMetrics, getRecentActivity } from '@/app/actions/employee'
 export default async function EmployeeDashboardPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) {
+    return null
+  }
   
   // Parallel data fetching
   const [profileResponse, metrics, recentActivity] = await Promise.all([
-    supabase.from("profiles").select("full_name").eq("id", user?.id!).single(),
+    supabase.from("profiles").select("full_name").eq("id", user.id).single(),
     getEmployeeMetrics(),
     getRecentActivity()
   ]);
 
   const profile = profileResponse.data;
-  const displayName = profile?.full_name?.split(' ')[0] || user?.email?.split('@')[0] || 'Collega'
+  const displayName = profile?.full_name?.split(' ')[0] || user.email?.split('@')[0] || 'Collega'
 
   return (
     <div className="mx-auto max-w-screen-2xl px-6 py-8">

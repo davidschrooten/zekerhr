@@ -1,9 +1,8 @@
-import { createClient } from "@/lib/supabase/server";
 import { LeaveRequestForm } from "@/components/leave-request-form";
 import { LeaveBalanceSummary } from "@/components/leave-balance-summary";
-import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { AnimatePage } from "@/components/animate-page";
+import { createClient } from "@/lib/supabase/server";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 
 export default async function LeavePage() {
   const supabase = await createClient();

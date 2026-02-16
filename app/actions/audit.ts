@@ -1,14 +1,14 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { Database } from "@/lib/supabase/database.types";
+import { Database, Json } from "@/lib/supabase/database.types";
 
 type AuditAction = Database["public"]["Enums"]["audit_action"];
 
 export async function logAction(
   action: AuditAction, 
   targetId?: string, 
-  metadata: Record<string, any> = {}
+  metadata: { [key: string]: Json | undefined } = {}
 ) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();

@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react"
-import { Card } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { CheckCircle2, Clock, FileText, User, AlertCircle } from 'lucide-react'
+import { Card } from "@/components/ui/card"
+import { CheckCircle2, Clock, User } from "lucide-react"
+import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { motion } from "framer-motion"
 

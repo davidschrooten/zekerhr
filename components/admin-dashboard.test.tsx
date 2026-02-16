@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { UserList } from './admin/user-list'
-import { ComplianceAlerts } from './admin/compliance-alerts'
+import { ComplianceAlerts, Notification } from './admin/compliance-alerts'
 import { Database } from '@/lib/supabase/database.types'
 import { markNotificationAsRead } from '@/app/actions/admin'
 
@@ -59,7 +59,7 @@ describe('UserList', () => {
 })
 
 describe('ComplianceAlerts', () => {
-  const mockAlerts = [
+  const mockAlerts: Notification[] = [
     {
       id: 'log-1',
       title: 'Week 6: Probleemanalyse Deadline',
@@ -76,7 +76,7 @@ describe('ComplianceAlerts', () => {
   })
 
   it('renders alerts', () => {
-    render(<ComplianceAlerts alerts={mockAlerts as any} />)
+    render(<ComplianceAlerts alerts={mockAlerts} />)
     expect(screen.getByText('Week 6: Probleemanalyse Deadline')).toBeInTheDocument()
     expect(screen.getByText(/Deadline for Sick User/)).toBeInTheDocument()
   })
@@ -87,7 +87,7 @@ describe('ComplianceAlerts', () => {
   })
 
   it('handles mark as read interaction', async () => {
-    render(<ComplianceAlerts alerts={mockAlerts as any} />)
+    render(<ComplianceAlerts alerts={mockAlerts} />)
     
     const markButton = screen.getByTitle('Mark as read')
     fireEvent.click(markButton)
@@ -99,7 +99,7 @@ describe('ComplianceAlerts', () => {
   })
 
   it('handles action link navigation', () => {
-    render(<ComplianceAlerts alerts={mockAlerts as any} />)
+    render(<ComplianceAlerts alerts={mockAlerts} />)
     
     const linkButton = screen.getByText('View Details →')
     fireEvent.click(linkButton)

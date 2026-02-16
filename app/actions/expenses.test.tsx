@@ -18,6 +18,7 @@ vi.mock('next/navigation', () => ({
 }))
 
 describe('expenses actions', () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let mockSupabase: any
 
   beforeEach(() => {

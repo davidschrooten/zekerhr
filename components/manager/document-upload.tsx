@@ -22,7 +22,7 @@ export function DocumentUpload({ sicknessLogId, onUploadComplete }: DocumentUplo
 
     try {
       // 1. Get Signed URL
-      const { signedUrl, path } = await getUploadUrl(sicknessLogId, file.name, file.type);
+      const { signedUrl, path } = await getUploadUrl(sicknessLogId, file.name);
 
       // 2. Upload to Storage
       const response = await fetch(signedUrl, {

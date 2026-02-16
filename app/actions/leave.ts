@@ -2,10 +2,7 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
-import { Database } from "@/lib/supabase/database.types";
-import { logAction } from "@/app/actions/audit";
-
-type LeaveType = Database["public"]["Enums"]["leave_type"];
+import { logAction } from "./audit";
 
 export async function submitLeaveRequest(formData: FormData) {
   const supabase = await createClient();

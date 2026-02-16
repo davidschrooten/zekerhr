@@ -8,7 +8,7 @@ const queryMock = {
   eq: vi.fn(),
   update: vi.fn(),
   single: vi.fn(),
-} as any
+} as unknown as { [key: string]: ReturnType<typeof vi.fn> }
 
 const mockSupabase = {
   auth: {

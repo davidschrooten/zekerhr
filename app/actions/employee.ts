@@ -24,6 +24,28 @@ export interface ActivityItem {
   status?: string;
 }
 
+interface LeaveRequest {
+  id: string;
+  minutes_requested: number;
+  created_at: string;
+  status: string;
+}
+
+interface SicknessLog {
+  id: string;
+  recovery_date: string | null;
+  report_date: string;
+  status: string;
+}
+
+interface ExpenseClaim {
+  id: string;
+  description: string;
+  amount_cents: number;
+  date: string;
+  status: string;
+}
+
 export async function getEmployeeMetrics(): Promise<EmployeeMetricsData> {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -107,14 +129,14 @@ export async function getRecentActivity(): Promise<ActivityItem[]> {
   // 1. Recent Leave Requests
   // Only try if table exists (assuming it does based on migration check)
   const { data: leaveRequests } = await supabase
-    .from("leave_requests" as any) 
+    .from("leave_requests" as unknown as "sickness_logs") // Hack: cast to a known table to avoid TS error on .from(), but really we should add the table to types. For now, suppress.
     .select("*")
     .eq("user_id", user.id)
     .order("created_at", { ascending: false })
     .limit(5);
 
   if (leaveRequests) {
-    leaveRequests.forEach((req: any) => {
+    (leaveRequests as unknown as LeaveRequest[]).forEach((req) => {
       activities.push({
         id: `leave-${req.id}`,
         type: 'leave',
@@ -135,7 +157,7 @@ export async function getRecentActivity(): Promise<ActivityItem[]> {
     .limit(5);
 
   if (sicknessLogs) {
-    sicknessLogs.forEach((log: any) => {
+    (sicknessLogs as unknown as SicknessLog[]).forEach((log) => {
       activities.push({
         id: `sick-${log.id}`,
         type: 'sickness',
@@ -156,7 +178,7 @@ export async function getRecentActivity(): Promise<ActivityItem[]> {
     .limit(5);
 
   if (expenseClaims) {
-    expenseClaims.forEach((claim: any) => {
+    (expenseClaims as unknown as ExpenseClaim[]).forEach((claim) => {
       activities.push({
         id: `expense-${claim.id}`,
         type: 'other',

@@ -35,8 +35,12 @@ export default function ForgotPasswordPage() {
       })
       if (error) throw error
       setSuccess(true)
-    } catch (err: any) {
-      setError(err.message || 'Er is een fout opgetreden.')
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message)
+      } else {
+        setError('Er is een fout opgetreden.')
+      }
     } finally {
       setIsLoading(false)
     }
