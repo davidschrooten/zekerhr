@@ -4,9 +4,11 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Info } from "lucide-react";
 import { AnimatePage } from "@/components/animate-page";
+import { getTranslations } from "next-intl/server";
 
 export default async function PayslipsPage() {
   const supabase = await createClient();
+  const t = await getTranslations("EmployeeDashboard.payslips_page");
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) return null;
@@ -23,7 +25,7 @@ export default async function PayslipsPage() {
     console.error("Error fetching payslips:", error);
     return (
       <div className="p-6 text-red-500">
-        Er is een fout opgetreden bij het laden van je loonstroken.
+        {t('error_loading')}
       </div>
     );
   }
@@ -31,27 +33,27 @@ export default async function PayslipsPage() {
   return (
     <AnimatePage className="mx-auto max-w-screen-2xl px-6 py-8 space-y-8">
       <div>
-        <h1 className="text-3xl font-semibold tracking-tight">Loonstroken</h1>
+        <h1 className="text-3xl font-semibold tracking-tight">{t('title')}</h1>
         <p className="text-muted-foreground mt-2">
-          Bekijk en download je maandelijkse salarisspecificaties.
+          {t('subtitle')}
         </p>
       </div>
 
       <Alert className="flex items-start gap-4">
         <Info className="h-4 w-4 mt-0.5 shrink-0" />
         <div className="grid gap-1">
-          <AlertTitle className="col-start-auto">Informatie</AlertTitle>
+          <AlertTitle className="col-start-auto">{t('alert_title')}</AlertTitle>
           <AlertDescription className="col-start-auto">
-            Loonstroken worden elke maand rond de 25e toegevoegd. Jaaropgaven zijn hier ook te vinden.
+            {t('alert_desc')}
           </AlertDescription>
         </div>
       </Alert>
 
       <Card>
         <CardHeader>
-          <CardTitle>Overzicht Loonstroken</CardTitle>
+          <CardTitle>{t('overview_title')}</CardTitle>
           <CardDescription>
-            Recente documenten.
+            {t('overview_desc')}
           </CardDescription>
         </CardHeader>
         <CardContent>

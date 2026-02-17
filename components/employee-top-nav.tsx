@@ -4,6 +4,7 @@ import { Search, MessageSquare } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { UserNav } from '@/components/user-nav'
+import { useTranslations } from 'next-intl'
 
 interface EmployeeTopNavProps {
   user: {
@@ -14,6 +15,7 @@ interface EmployeeTopNavProps {
 }
 
 export function EmployeeTopNav({ user }: EmployeeTopNavProps) {
+  const t = useTranslations('EmployeeDashboard')
   return (
     <nav className="border-b border-border bg-background">
       <div className="mx-auto flex h-14 max-w-screen-2xl items-center justify-between px-6">
@@ -39,7 +41,7 @@ export function EmployeeTopNav({ user }: EmployeeTopNavProps) {
             <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               type="search"
-              placeholder="Zoeken..."
+              placeholder={t('search_placeholder')}
               className="h-8 w-64 border-border bg-background pl-8 text-sm"
             />
           </div>
@@ -51,7 +53,7 @@ export function EmployeeTopNav({ user }: EmployeeTopNavProps) {
             className="h-8 gap-2 text-sm font-normal text-foreground"
           >
             <MessageSquare className="h-4 w-4" />
-            Feedback
+            {t('feedback')}
           </Button>
 
           {/* User Profile */}

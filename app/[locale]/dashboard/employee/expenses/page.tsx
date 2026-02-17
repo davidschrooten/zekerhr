@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Plus, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -13,6 +12,8 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { getExpenses } from "@/app/actions/expenses";
 import { AnimatePage } from "@/components/animate-page";
+import { Link } from "@/i18n/routing";
+import { getTranslations } from "next-intl/server";
 
 export default async function ExpensesPage({
   searchParams,
@@ -20,6 +21,7 @@ export default async function ExpensesPage({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
   const params = await searchParams;
+  const t = await getTranslations("EmployeeDashboard.expenses_page");
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth() + 1;
 
@@ -32,33 +34,32 @@ export default async function ExpensesPage({
   const prevDate = new Date(year, month - 2);
   const nextDate = new Date(year, month);
 
-  const monthNames = [
-    "Januari", "Februari", "Maart", "April", "Mei", "Juni",
-    "Juli", "Augustus", "September", "Oktober", "November", "December"
-  ];
+  // We should ideally use Intl.DateTimeFormat but for now, let's keep it simple or fetch from messages if we had month names there.
+  // Using Intl.DateTimeFormat for month name
+  const monthName = new Date(year, month - 1).toLocaleString('default', { month: 'long' });
 
   return (
     <AnimatePage className="mx-auto max-w-screen-2xl px-6 py-8">
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-3xl font-semibold tracking-tight text-foreground">
-            Declaraties
+            {t('title')}
           </h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            Beheer en dien jouw onkosten in.
+            {t('subtitle')}
           </p>
         </div>
         <Button asChild>
           <Link href="/dashboard/employee/expenses/new">
             <Plus className="mr-2 h-4 w-4" />
-            Nieuwe Declaratie
+            {t('new_expense')}
           </Link>
         </Button>
       </div>
 
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-medium">
-            Overzicht {monthNames[month - 1]} {year}
+            {t('overview_month', {month: monthName, year: year})}
         </h2>
         <div className="flex items-center gap-2">
             <Button variant="outline" size="sm" asChild>
@@ -83,11 +84,11 @@ export default async function ExpensesPage({
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Datum</TableHead>
-                <TableHead>Omschrijving</TableHead>
-                <TableHead>Categorie</TableHead>
-                <TableHead>Bedrag</TableHead>
-                <TableHead>Status</TableHead>
+                <TableHead>{t('date')}</TableHead>
+                <TableHead>{t('description')}</TableHead>
+                <TableHead>{t('category')}</TableHead>
+                <TableHead>{t('amount')}</TableHead>
+                <TableHead>{t('status')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -109,12 +110,12 @@ export default async function ExpensesPage({
                         }
                       >
                         {expense.status === "approved"
-                          ? "Goedgekeurd"
+                          ? t('approved')
                           : expense.status === "rejected"
-                          ? "Afgekeurd"
+                          ? t('rejected')
                           : expense.status === "paid"
-                          ? "Uitbetaald"
-                          : "In afwachting"}
+                          ? t('paid')
+                          : t('pending')}
                       </Badge>
                     </TableCell>
                   </TableRow>
@@ -122,7 +123,7 @@ export default async function ExpensesPage({
               ) : (
                 <TableRow>
                   <TableCell colSpan={5} className="text-center text-muted-foreground h-24">
-                    Geen declaraties gevonden voor deze maand.
+                    {t('no_expenses')}
                   </TableCell>
                 </TableRow>
               )}

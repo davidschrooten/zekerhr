@@ -2,9 +2,11 @@ import { createClient } from "@/lib/supabase/server";
 import { DocumentList } from "@/components/document-list";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { AnimatePage } from "@/components/animate-page";
+import { getTranslations } from "next-intl/server";
 
 export default async function DocumentsPage() {
   const supabase = await createClient();
+  const t = await getTranslations("EmployeeDashboard.documents_page");
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) return null;
@@ -22,17 +24,17 @@ export default async function DocumentsPage() {
   return (
     <AnimatePage className="mx-auto max-w-screen-2xl px-6 py-8 space-y-8">
       <div>
-        <h1 className="text-3xl font-semibold tracking-tight">Documenten</h1>
+        <h1 className="text-3xl font-semibold tracking-tight">{t('title')}</h1>
         <p className="text-muted-foreground mt-2">
-          Bekijk je contracten en overige documenten.
+          {t('subtitle')}
         </p>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>Mijn Documenten</CardTitle>
+          <CardTitle>{t('overview_title')}</CardTitle>
           <CardDescription>
-            Overzicht van je documenten.
+            {t('overview_desc')}
           </CardDescription>
         </CardHeader>
         <CardContent>

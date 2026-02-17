@@ -3,9 +3,11 @@ import { LeaveBalanceSummary } from "@/components/leave-balance-summary";
 import { AnimatePage } from "@/components/animate-page";
 import { createClient } from "@/lib/supabase/server";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { getTranslations } from "next-intl/server";
 
 export default async function LeavePage() {
   const supabase = await createClient();
+  const t = await getTranslations("EmployeeDashboard.leave_page");
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) return null;
@@ -28,9 +30,9 @@ export default async function LeavePage() {
   return (
     <AnimatePage className="mx-auto max-w-screen-2xl px-6 py-8 space-y-8">
       <div>
-        <h1 className="text-3xl font-semibold tracking-tight">Verlof</h1>
+        <h1 className="text-3xl font-semibold tracking-tight">{t('title')}</h1>
         <p className="text-muted-foreground mt-2">
-          Bekijk je saldo en vraag verlof aan.
+          {t('subtitle')}
         </p>
       </div>
 
@@ -41,8 +43,8 @@ export default async function LeavePage() {
             
             <Card>
                 <CardHeader>
-                    <CardTitle>Verlof aanvragen</CardTitle>
-                    <CardDescription>Dien een nieuwe aanvraag in.</CardDescription>
+                    <CardTitle>{t('request_leave')}</CardTitle>
+                    <CardDescription>{t('new_request_desc')}</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <LeaveRequestForm />
@@ -54,8 +56,8 @@ export default async function LeavePage() {
         <div className="lg:col-span-2">
             <Card className="h-full">
                 <CardHeader>
-                    <CardTitle>Geschiedenis</CardTitle>
-                    <CardDescription>Overzicht van je verlofaanvragen.</CardDescription>
+                    <CardTitle>{t('history')}</CardTitle>
+                    <CardDescription>{t('history_desc')}</CardDescription>
                 </CardHeader>
                 <CardContent>
                     {requests && requests.length > 0 ? (
@@ -67,7 +69,7 @@ export default async function LeavePage() {
                                             {new Date(req.start_date).toLocaleDateString("nl-NL")} - {new Date(req.end_date).toLocaleDateString("nl-NL")}
                                         </div>
                                         <div className="text-sm text-muted-foreground">
-                                            {(req.minutes_requested / 60).toFixed(1)} uur
+                                            {(req.minutes_requested / 60).toFixed(1)} {t('hours')}
                                             {req.reason && ` • ${req.reason}`}
                                         </div>
                                     </div>
@@ -77,14 +79,14 @@ export default async function LeavePage() {
                                             req.status === 'denied' ? 'bg-red-100 text-red-700 dark:bg-red-950/30 dark:text-red-400' :
                                             'bg-amber-100 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400'
                                         }`}>
-                                            {req.status === 'approved' ? 'Goedgekeurd' : req.status === 'denied' ? 'Geweigerd' : 'In behandeling'}
+                                            {req.status === 'approved' ? t('approved') : req.status === 'denied' ? t('denied') : t('pending')}
                                         </span>
                                     </div>
                                 </div>
                             ))}
                         </div>
                     ) : (
-                        <p className="text-muted-foreground text-sm">Nog geen aanvragen.</p>
+                        <p className="text-muted-foreground text-sm">{t('no_requests')}</p>
                     )}
                 </CardContent>
             </Card>

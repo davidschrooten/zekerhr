@@ -1,21 +1,22 @@
 'use client'
 
 import { cn } from '@/lib/utils'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-
-const tabs = [
-  { id: 'overzicht', label: 'Overzicht', href: '/dashboard/employee' },
-  { id: 'loonstroken', label: 'Loonstroken', href: '/dashboard/employee/payslips' },
-  { id: 'verlof', label: 'Verlof', href: '/dashboard/employee/leave' },
-  { id: 'declaraties', label: 'Declaraties', href: '/dashboard/employee/expenses' },
-  { id: 'verzuim', label: 'Verzuim', href: '/dashboard/employee/sickness' },
-  { id: 'documenten', label: 'Documenten', href: '/dashboard/employee/documents' },
-  { id: 'instellingen', label: 'Profiel & Instellingen', href: '/dashboard/employee/settings' },
-]
+import { Link, usePathname } from '@/i18n/routing'
+import { useTranslations } from 'next-intl'
 
 export function EmployeeTabNav() {
   const pathname = usePathname()
+  const t = useTranslations('EmployeeDashboard.tabs')
+
+  const tabs = [
+    { id: 'overview', label: t('overview'), href: '/dashboard/employee' },
+    { id: 'payslips', label: t('payslips'), href: '/dashboard/employee/payslips' },
+    { id: 'leave', label: t('leave'), href: '/dashboard/employee/leave' },
+    { id: 'expenses', label: t('expenses'), href: '/dashboard/employee/expenses' },
+    { id: 'sickness', label: t('sickness'), href: '/dashboard/employee/sickness' },
+    { id: 'documents', label: t('documents'), href: '/dashboard/employee/documents' },
+    { id: 'settings', label: t('settings'), href: '/dashboard/employee/settings' },
+  ]
 
   return (
     <div className="border-b border-border bg-background">

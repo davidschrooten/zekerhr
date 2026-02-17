@@ -59,5 +59,93 @@
     "hr_description": "Manage compliance, payroll exports, and employee dossiers.",
     "admin_dashboard": "Admin Dashboard",
     "admin_description": "System administration, billing, and audit logs."
+  },
+  "EmployeeDashboard": {
+    "welcome": "Good morning, {name}",
+    "overview_subtitle": "Here is your personal overview",
+    "search_placeholder": "Search...",
+    "feedback": "Feedback",
+    "tabs": {
+      "overview": "Overview",
+      "payslips": "Payslips",
+      "leave": "Leave",
+      "expenses": "Expenses",
+      "sickness": "Sickness",
+      "documents": "Documents",
+      "settings": "Profile & Settings"
+    },
+    "leave_page": {
+      "title": "Leave",
+      "subtitle": "View your balance and request leave.",
+      "request_leave": "Request Leave",
+      "new_request_desc": "Submit a new request.",
+      "history": "History",
+      "history_desc": "Overview of your leave requests.",
+      "hours": "hours",
+      "approved": "Approved",
+      "denied": "Denied",
+      "pending": "Pending",
+      "no_requests": "No requests yet."
+    },
+    "payslips_page": {
+      "title": "Payslips",
+      "subtitle": "View and download your monthly salary specifications.",
+      "alert_title": "Information",
+      "alert_desc": "Payslips are added around the 25th of each month. Annual statements can also be found here.",
+      "overview_title": "Payslips Overview",
+      "overview_desc": "Recent documents.",
+      "error_loading": "An error occurred while loading your payslips."
+    },
+    "documents_page": {
+        "title": "Documents",
+        "subtitle": "View your contracts and other documents.",
+        "overview_title": "My Documents",
+        "overview_desc": "Overview of your documents."
+    },
+    "expenses_page": {
+        "title": "Expenses",
+        "subtitle": "Manage and submit your expenses.",
+        "new_expense": "New Expense",
+        "overview_month": "Overview {month} {year}",
+        "date": "Date",
+        "description": "Description",
+        "category": "Category",
+        "amount": "Amount",
+        "status": "Status",
+        "approved": "Approved",
+        "rejected": "Rejected",
+        "paid": "Paid",
+        "pending": "Pending",
+        "no_expenses": "No expenses found for this month."
+    },
+    "sickness_page": {
+        "title": "Sickness",
+        "subtitle": "Report sickness or recovery, and view your history.",
+        "history_title": "Sickness History",
+        "history_desc": "Overview of your sickness reports.",
+        "status": "Status",
+        "recovered": "Recovered",
+        "reported": "Reported Sick",
+        "poortwachter": "In Poortwachter process",
+        "active": "Active",
+        "no_sickness": "No sickness registered."
+    },
+    "new_expense_page": {
+        "title": "New Expense",
+        "subtitle": "Enter the details of your expense.",
+        "submit_title": "Submit Expense",
+        "description": "Description",
+        "amount": "Amount (€)",
+        "date": "Date",
+        "category": "Category",
+        "select_category": "Select Category",
+        "travel": "Travel",
+        "meals": "Meals",
+        "training": "Training",
+        "equipment": "Equipment",
+        "other": "Other",
+        "submit_btn": "Submit Expense",
+        "submitting": "Submitting..."
+    }
   }
 }

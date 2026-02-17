@@ -3,9 +3,11 @@ import { EmployeeTasks } from '@/components/employee-tasks'
 import { EmployeeActivity } from '@/components/employee-activity'
 import { createClient } from '@/lib/supabase/server'
 import { getEmployeeMetrics, getRecentActivity } from '@/app/actions/employee'
+import { getTranslations } from 'next-intl/server'
 
 export default async function EmployeeDashboardPage() {
   const supabase = await createClient()
+  const t = await getTranslations('EmployeeDashboard')
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {
@@ -27,10 +29,10 @@ export default async function EmployeeDashboardPage() {
       {/* Welcome Message */}
       <div className="mb-8">
         <h1 className="text-3xl font-semibold tracking-tight text-foreground">
-          Goedemorgen, {displayName}
+          {t('welcome', {name: displayName})}
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Hier is jouw persoonlijke overzicht
+          {t('overview_subtitle')}
         </p>
       </div>
 

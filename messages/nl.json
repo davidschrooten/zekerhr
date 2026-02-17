@@ -59,5 +59,93 @@
     "hr_description": "Beheer naleving, loonlijstexports en werknemersdossiers.",
     "admin_dashboard": "Beheerders Dashboard",
     "admin_description": "Systeembeheer, facturering en audit logs."
+  },
+  "EmployeeDashboard": {
+    "welcome": "Goedemorgen, {name}",
+    "overview_subtitle": "Hier is jouw persoonlijke overzicht",
+    "search_placeholder": "Zoeken...",
+    "feedback": "Feedback",
+    "tabs": {
+      "overview": "Overzicht",
+      "payslips": "Loonstroken",
+      "leave": "Verlof",
+      "expenses": "Declaraties",
+      "sickness": "Verzuim",
+      "documents": "Documenten",
+      "settings": "Profiel & Instellingen"
+    },
+    "leave_page": {
+      "title": "Verlof",
+      "subtitle": "Bekijk je saldo en vraag verlof aan.",
+      "request_leave": "Verlof aanvragen",
+      "new_request_desc": "Dien een nieuwe aanvraag in.",
+      "history": "Geschiedenis",
+      "history_desc": "Overzicht van je verlofaanvragen.",
+      "hours": "uur",
+      "approved": "Goedgekeurd",
+      "denied": "Geweigerd",
+      "pending": "In behandeling",
+      "no_requests": "Nog geen aanvragen."
+    },
+    "payslips_page": {
+      "title": "Loonstroken",
+      "subtitle": "Bekijk en download je maandelijkse salarisspecificaties.",
+      "alert_title": "Informatie",
+      "alert_desc": "Loonstroken worden elke maand rond de 25e toegevoegd. Jaaropgaven zijn hier ook te vinden.",
+      "overview_title": "Overzicht Loonstroken",
+      "overview_desc": "Recente documenten.",
+      "error_loading": "Er is een fout opgetreden bij het laden van je loonstroken."
+    },
+    "documents_page": {
+        "title": "Documenten",
+        "subtitle": "Bekijk je contracten en overige documenten.",
+        "overview_title": "Mijn Documenten",
+        "overview_desc": "Overzicht van je documenten."
+    },
+    "expenses_page": {
+        "title": "Declaraties",
+        "subtitle": "Beheer en dien jouw onkosten in.",
+        "new_expense": "Nieuwe Declaratie",
+        "overview_month": "Overzicht {month} {year}",
+        "date": "Datum",
+        "description": "Omschrijving",
+        "category": "Categorie",
+        "amount": "Bedrag",
+        "status": "Status",
+        "approved": "Goedgekeurd",
+        "rejected": "Afgekeurd",
+        "paid": "Uitbetaald",
+        "pending": "In afwachting",
+        "no_expenses": "Geen declaraties gevonden voor deze maand."
+    },
+    "sickness_page": {
+        "title": "Verzuim",
+        "subtitle": "Meld je ziek of hersteld, en bekijk je verzuimhistorie.",
+        "history_title": "Verzuimhistorie",
+        "history_desc": "Overzicht van je ziekmeldingen.",
+        "status": "Status",
+        "recovered": "Hersteld",
+        "reported": "Ziek gemeld",
+        "poortwachter": "In Poortwachter traject",
+        "active": "Actief",
+        "no_sickness": "Geen verzuim geregistreerd."
+    },
+    "new_expense_page": {
+        "title": "Nieuwe Declaratie",
+        "subtitle": "Vul de details van jouw uitgave in.",
+        "submit_title": "Declaratie Indienen",
+        "description": "Omschrijving",
+        "amount": "Bedrag (€)",
+        "date": "Datum",
+        "category": "Categorie",
+        "select_category": "Selecteer Categorie",
+        "travel": "Reiskosten",
+        "meals": "Maaltijden",
+        "training": "Opleiding",
+        "equipment": "Apparatuur",
+        "other": "Overig",
+        "submit_btn": "Declaratie Indienen",
+        "submitting": "Versturen..."
+    }
   }
 }

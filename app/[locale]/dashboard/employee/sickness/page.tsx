@@ -4,9 +4,11 @@ import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/com
 import { format } from "date-fns";
 import { nl } from "date-fns/locale";
 import { AnimatePage } from "@/components/animate-page";
+import { getTranslations } from "next-intl/server";
 
 export default async function SicknessPage() {
   const supabase = await createClient();
+  const t = await getTranslations("EmployeeDashboard.sickness_page");
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) return null;
@@ -24,9 +26,9 @@ export default async function SicknessPage() {
   return (
     <AnimatePage className="mx-auto max-w-screen-2xl px-6 py-8 space-y-8">
       <div>
-        <h1 className="text-3xl font-semibold tracking-tight">Verzuim</h1>
+        <h1 className="text-3xl font-semibold tracking-tight">{t('title')}</h1>
         <p className="text-muted-foreground mt-2">
-          Meld je ziek of hersteld, en bekijk je verzuimhistorie.
+          {t('subtitle')}
         </p>
       </div>
 
@@ -40,8 +42,8 @@ export default async function SicknessPage() {
         <div className="lg:col-span-2">
             <Card className="h-full">
                 <CardHeader>
-                    <CardTitle>Verzuimhistorie</CardTitle>
-                    <CardDescription>Overzicht van je ziekmeldingen.</CardDescription>
+                    <CardTitle>{t('history_title')}</CardTitle>
+                    <CardDescription>{t('history_desc')}</CardDescription>
                 </CardHeader>
                 <CardContent>
                     {logs && logs.length > 0 ? (
@@ -50,25 +52,25 @@ export default async function SicknessPage() {
                                 <div key={log.id} className="flex items-center justify-between border-b last:border-0 pb-4 last:pb-0">
                                     <div>
                                         <div className="font-medium">
-                                            {format(new Date(log.report_date), "d MMMM yyyy", { locale: nl })}
-                                            {log.recovery_date && ` - ${format(new Date(log.recovery_date), "d MMMM yyyy", { locale: nl })}`}
+                                            {format(new Date(log.report_date), "d MMMM yyyy")}
+                                            {log.recovery_date && ` - ${format(new Date(log.recovery_date), "d MMMM yyyy")}`}
                                         </div>
                                         <div className="text-sm text-muted-foreground">
-                                            Status: {
-                                                log.status === 'recovered' ? 'Hersteld' :
-                                                log.status === 'reported' ? 'Ziek gemeld' :
-                                                'In Poortwachter traject'
+                                            {t('status')}: {
+                                                log.status === 'recovered' ? t('recovered') :
+                                                log.status === 'reported' ? t('reported') :
+                                                t('poortwachter')
                                             }
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-2">
                                          {!log.recovery_date ? (
                                              <span className="px-2 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400">
-                                                 Actief
+                                                 {t('active')}
                                              </span>
                                          ) : (
                                              <span className="px-2 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400">
-                                                 Hersteld
+                                                 {t('recovered')}
                                              </span>
                                          )}
                                     </div>
@@ -76,7 +78,7 @@ export default async function SicknessPage() {
                             ))}
                         </div>
                     ) : (
-                        <p className="text-muted-foreground text-sm">Geen verzuim geregistreerd.</p>
+                        <p className="text-muted-foreground text-sm">{t('no_sickness')}</p>
                     )}
                 </CardContent>
             </Card>
