@@ -1,8 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { Link, useRouter } from '@/i18n/routing'
 import { AuthLayout } from '@/components/auth-layout'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -10,9 +9,11 @@ import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { createClient } from '@/lib/supabase/client'
+import { useTranslations } from 'next-intl'
 
 export default function SignupPage() {
   const router = useRouter()
+  const t = useTranslations('Auth')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [password, setPassword] = useState('')
@@ -26,12 +27,12 @@ export default function SignupPage() {
     setError('')
 
     if (password !== confirmPassword) {
-      setError('Wachtwoorden komen niet overeen')
+      setError(t('passwords_do_not_match'))
       return
     }
 
     if (password.length < 8) {
-      setError('Wachtwoord moet minimaal 8 tekens bevatten')
+      setError(t('password_too_short'))
       return
     }
 
@@ -43,7 +44,7 @@ export default function SignupPage() {
       if (userError || !user) {
          // If no session, we can't update password. The invite link should have logged them in via callback.
          // Or they are trying to sign up publicly which is disabled.
-         throw new Error("Geen geldige sessie gevonden. Gebruik de link uit uw e-mail.")
+         throw new Error(t('no_valid_session'))
       }
 
       // Update password
@@ -66,7 +67,7 @@ export default function SignupPage() {
       if (err instanceof Error) {
         setError(err.message)
       } else {
-        setError("Er is een fout opgetreden.")
+        setError(t('error_generic'))
       }
     } finally {
       setIsLoading(false)
@@ -77,9 +78,9 @@ export default function SignupPage() {
     <AuthLayout>
       <Card className="border-border shadow-sm">
         <CardHeader className="space-y-1 text-center">
-          <CardTitle className="text-2xl font-semibold tracking-tight">Welkom bij ZekerHR</CardTitle>
+          <CardTitle className="text-2xl font-semibold tracking-tight">{t('signup_title')}</CardTitle>
           <CardDescription className="text-muted-foreground">
-            Voltooi uw registratie om aan de slag te gaan
+            {t('signup_description')}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -92,7 +93,7 @@ export default function SignupPage() {
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="firstName">Voornaam</Label>
+                <Label htmlFor="firstName">{t('first_name')}</Label>
                 <Input
                   id="firstName"
                   type="text"
@@ -104,7 +105,7 @@ export default function SignupPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="lastName">Achternaam</Label>
+                <Label htmlFor="lastName">{t('last_name')}</Label>
                 <Input
                   id="lastName"
                   type="text"
@@ -117,11 +118,11 @@ export default function SignupPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password">Wachtwoord</Label>
+              <Label htmlFor="password">{t('password')}</Label>
               <Input
                 id="password"
                 type="password"
-                placeholder="Minimaal 8 tekens"
+                placeholder={t('password_min_chars')}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -129,11 +130,11 @@ export default function SignupPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Bevestig wachtwoord</Label>
+              <Label htmlFor="confirmPassword">{t('confirm_password')}</Label>
               <Input
                 id="confirmPassword"
                 type="password"
-                placeholder="Herhaal uw wachtwoord"
+                placeholder={t('repeat_password')}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
@@ -145,18 +146,18 @@ export default function SignupPage() {
               className="w-full"
               disabled={isLoading}
             >
-              {isLoading ? 'Account aanmaken...' : 'Account aanmaken'}
+              {isLoading ? t('creating_account') : t('create_account')}
             </Button>
           </form>
 
           <div className="mt-6 text-center">
             <p className="text-sm text-muted-foreground">
-              {'Al een account? '}
+              {t('already_account') + ' '}
               <Link
                 href="/auth/login"
                 className="font-medium text-foreground hover:underline"
               >
-                Inloggen
+                {t('login_link')}
               </Link>
             </p>
           </div>
@@ -164,7 +165,7 @@ export default function SignupPage() {
       </Card>
 
       <p className="mt-6 text-center text-xs text-muted-foreground">
-        Door te registreren gaat u akkoord met onze gebruiksvoorwaarden
+        {t('terms_signup')}
       </p>
     </AuthLayout>
   )

@@ -17,8 +17,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/client";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
+import { Link, useRouter } from "@/i18n/routing";
+import { useTranslations } from "next-intl";
 
 interface UserNavProps {
   user: {
@@ -33,6 +33,7 @@ interface UserNavProps {
 export function UserNav({ user, align = "end", showName = false }: UserNavProps) {
   const router = useRouter();
   const supabase = createClient();
+  const t = useTranslations("Nav");
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -68,14 +69,14 @@ export function UserNav({ user, align = "end", showName = false }: UserNavProps)
         <DropdownMenuGroup>
           <Link href="/dashboard/settings" passHref>
             <DropdownMenuItem>
-              Settings
+              {t('settings')}
               <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
             </DropdownMenuItem>
           </Link>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleLogout}>
-          Log out
+          {t('logout')}
           <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuContent>

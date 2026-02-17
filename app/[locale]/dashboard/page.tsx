@@ -1,16 +1,19 @@
 import { createClient } from "@/lib/supabase/server";
-import { redirect } from "next/navigation";
-import Link from "next/link";
+import { Link, redirect } from "@/i18n/routing";
 import { User, Briefcase, ChevronRight, Users, ShieldCheck } from "lucide-react";
+import { getTranslations, getLocale } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
 export default async function RoleSelectionPage() {
   const supabase = await createClient();
+  const t = await getTranslations("RoleSelection");
+  const locale = await getLocale();
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect("/auth/login");
+    redirect({ href: "/auth/login", locale });
+    return null; // Ensure TS knows execution stops or user is not null later
   }
 
   const { data: profile } = await supabase
@@ -21,31 +24,33 @@ export default async function RoleSelectionPage() {
 
   if (!profile) {
     // Edge case: User exists but profile doesn't? Redirect to error or handle.
-    redirect("/auth/login");
+    redirect({ href: "/auth/login", locale });
+    return null;
   }
 
   // If role is strictly 'employee', redirect directly to their dashboard.
   if (profile.role === 'employee') {
-    redirect("/dashboard/employee");
+    redirect({ href: "/dashboard/employee", locale });
   }
 
   // Determine the specialized dashboard link and title based on role
   let specializedLink = "/dashboard/manager";
-  let specializedTitle = "Management Dashboard";
-  let specializedDescription = "Manage your team, approve requests, and view department metrics.";
+  let specializedTitle = t("management_dashboard");
+  let specializedDescription = t("management_description");
   let specializedIcon = Briefcase;
 
   if (profile.role === 'hr_admin') {
     specializedLink = "/dashboard/hr";
-    specializedTitle = "HR Dashboard";
-    specializedDescription = "Manage compliance, payroll exports, and employee dossiers.";
+    specializedTitle = t("hr_dashboard");
+    specializedDescription = t("hr_description");
     specializedIcon = Users;
   } else if (profile.role === 'super_admin') {
     specializedLink = "/dashboard/admin";
-    specializedTitle = "Admin Dashboard";
-    specializedDescription = "System administration, billing, and audit logs.";
+    specializedTitle = t("admin_dashboard");
+    specializedDescription = t("admin_description");
     specializedIcon = ShieldCheck;
   }
+// ...
 
   const SpecializedIconComponent = specializedIcon;
 
@@ -55,10 +60,10 @@ export default async function RoleSelectionPage() {
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-semibold text-foreground mb-3 tracking-tight">
-            Welcome to ZekerHR
+            {t('welcome')}
           </h1>
           <p className="text-muted-foreground text-lg">
-            Select how you&apos;d like to continue
+            {t('select_continue')}
           </p>
         </div>
 
@@ -81,16 +86,16 @@ export default async function RoleSelectionPage() {
                 {/* Content */}
                 <div className="flex-1">
                   <h2 className="text-2xl font-semibold text-foreground mb-3 tracking-tight">
-                    Employee Portal
+                    {t('employee_portal')}
                   </h2>
                   <p className="text-muted-foreground leading-relaxed">
-                    View your payslips, request leave, and manage your personal profile.
+                    {t('employee_description')}
                   </p>
                 </div>
 
                 {/* Arrow indicator */}
                 <div className="mt-6 flex items-center text-sm font-medium text-foreground opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-                  <span>Continue</span>
+                  <span>{t('continue')}</span>
                   <ChevronRight className="ml-2 w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
                 </div>
               </div>
@@ -123,7 +128,7 @@ export default async function RoleSelectionPage() {
 
                 {/* Arrow indicator */}
                 <div className="mt-6 flex items-center text-sm font-medium text-foreground opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-                  <span>Continue</span>
+                  <span>{t('continue')}</span>
                   <ChevronRight className="ml-2 w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
                 </div>
               </div>
@@ -134,7 +139,7 @@ export default async function RoleSelectionPage() {
         {/* Footer Note */}
         <div className="text-center mt-8">
           <p className="text-sm text-muted-foreground">
-            Need help? Contact <span className="text-foreground font-medium">support@zekerhr.com</span>
+            {t('need_help')} <span className="text-foreground font-medium">support@zekerhr.com</span>
           </p>
         </div>
       </div>

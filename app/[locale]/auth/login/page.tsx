@@ -1,8 +1,8 @@
 'use client'
 
 import React, { useState } from 'react'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { Link, useRouter } from '@/i18n/routing'
+import { useTranslations } from 'next-intl'
 import { createClient } from '@/lib/supabase/client'
 import { AuthLayout } from '@/components/auth-layout'
 import { Button } from '@/components/ui/button'
@@ -12,6 +12,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Alert, AlertDescription } from '@/components/ui/alert'
 
 export default function LoginPage() {
+  const t = useTranslations('Auth')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -37,7 +38,7 @@ export default function LoginPage() {
       if (error instanceof Error) {
         setError(error.message)
       } else {
-        setError('Er is een fout opgetreden bij het inloggen')
+        setError(t('error_login'))
       }
     } finally {
       setIsLoading(false)
@@ -48,9 +49,9 @@ export default function LoginPage() {
     <AuthLayout>
       <Card className="border-border shadow-sm">
         <CardHeader className="space-y-1 text-center">
-          <CardTitle className="text-2xl font-semibold tracking-tight">Inloggen</CardTitle>
+          <CardTitle className="text-2xl font-semibold tracking-tight">{t('login')}</CardTitle>
           <CardDescription className="text-muted-foreground">
-            Voer uw gegevens in om toegang te krijgen
+            {t('login_description')}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -62,11 +63,11 @@ export default function LoginPage() {
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="email">E-mailadres</Label>
+              <Label htmlFor="email">{t('email')}</Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="naam@bedrijf.nl"
+                placeholder={t('email_placeholder')}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -75,18 +76,18 @@ export default function LoginPage() {
 
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <Label htmlFor="password">Wachtwoord</Label>
+                <Label htmlFor="password">{t('password')}</Label>
                 <Link
                   href="/auth/forgot-password"
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  Vergeten?
+                  {t('forgot_password')}
                 </Link>
               </div>
               <Input
                 id="password"
                 type="password"
-                placeholder="••••••••"
+                placeholder={t('password_placeholder')}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -98,18 +99,18 @@ export default function LoginPage() {
               className="w-full"
               disabled={isLoading}
             >
-              {isLoading ? 'Bezig met inloggen...' : 'Inloggen'}
+              {isLoading ? t('logging_in') : t('login')}
             </Button>
           </form>
 
           <div className="mt-6 text-center">
             <p className="text-sm text-muted-foreground">
-              {'Uitnodiging ontvangen? '}
+              {t('invitation_received') + ' '}
               <Link
                 href="/auth/sign-up"
                 className="font-medium text-foreground hover:underline"
               >
-                Registreer hier
+                {t('signup_link')}
               </Link>
             </p>
           </div>
@@ -117,7 +118,7 @@ export default function LoginPage() {
       </Card>
 
       <p className="mt-6 text-center text-xs text-muted-foreground">
-        Door in te loggen gaat u akkoord met onze voorwaarden
+        {t('terms_agreement')}
       </p>
     </AuthLayout>
   )

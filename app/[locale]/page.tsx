@@ -1,6 +1,6 @@
-import { redirect } from "next/navigation";
+import { redirect } from "../../i18n/routing";
 
 export default function Home() {
   // Force redirect to login (or dashboard via middleware logic ideally)
-  return redirect("/auth/login");
+  return redirect({href: "/auth/login", locale: "en"});
 }

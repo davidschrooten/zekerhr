@@ -1,14 +1,15 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Link, usePathname } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 export function MainNav({
   className,
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
   const pathname = usePathname();
+  const t = useTranslations("Nav");
 
   return (
     <nav
@@ -22,7 +23,7 @@ export function MainNav({
           pathname.includes("/dashboard/employee") ? "text-primary" : "text-muted-foreground"
         )}
       >
-        Overview
+        {t('overview')}
       </Link>
       <Link
         href="/dashboard/manager"
@@ -31,7 +32,7 @@ export function MainNav({
           pathname.includes("/dashboard/manager") ? "text-primary" : "text-muted-foreground"
         )}
       >
-        Manager
+        {t('manager')}
       </Link>
       <Link
         href="/dashboard/hr"
@@ -40,7 +41,7 @@ export function MainNav({
           pathname.includes("/dashboard/hr") ? "text-primary" : "text-muted-foreground"
         )}
       >
-        HR
+        {t('hr')}
       </Link>
       <Link
         href="/dashboard/admin"
@@ -49,7 +50,7 @@ export function MainNav({
           pathname.includes("/dashboard/admin") ? "text-primary" : "text-muted-foreground"
         )}
       >
-        Admin
+        {t('admin')}
       </Link>
     </nav>
   );

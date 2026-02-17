@@ -1,0 +1,63 @@
+{
+  "HomePage": {
+    "title": "Welcome to ZekerHR",
+    "description": "Sovereign HR SaaS for the Dutch market"
+  },
+  "Auth": {
+    "login": "Login",
+    "login_description": "Enter your details to access your account",
+    "signup": "Sign Up",
+    "signup_link": "Register here",
+    "email": "Email Address",
+    "email_placeholder": "name@company.com",
+    "password": "Password",
+    "password_placeholder": "••••••••",
+    "forgot_password": "Forgot?",
+    "logging_in": "Logging in...",
+    "error_login": "An error occurred while logging in",
+    "invitation_received": "Received an invitation?",
+    "terms_agreement": "By logging in, you agree to our terms",
+    "sign_in": "Sign in",
+    "sign_up": "Sign up",
+    "welcome_user": "Hey, {email}!",
+    "logout": "Logout",
+    "signup_title": "Welcome to ZekerHR",
+    "signup_description": "Complete your registration to get started",
+    "first_name": "First Name",
+    "last_name": "Last Name",
+    "confirm_password": "Confirm Password",
+    "password_min_chars": "At least 8 characters",
+    "repeat_password": "Repeat your password",
+    "create_account": "Create Account",
+    "creating_account": "Creating account...",
+    "already_account": "Already have an account?",
+    "login_link": "Login",
+    "terms_signup": "By registering, you agree to our terms of use",
+    "passwords_do_not_match": "Passwords do not match",
+    "password_too_short": "Password must be at least 8 characters",
+    "no_valid_session": "No valid session found. Use the link from your email.",
+    "error_generic": "An error occurred."
+  },
+  "Nav": {
+    "overview": "Overview",
+    "manager": "Manager",
+    "hr": "HR",
+    "admin": "Admin",
+    "settings": "Settings",
+    "logout": "Log out"
+  },
+  "RoleSelection": {
+    "welcome": "Welcome to ZekerHR",
+    "select_continue": "Select how you'd like to continue",
+    "employee_portal": "Employee Portal",
+    "employee_description": "View your payslips, request leave, and manage your personal profile.",
+    "continue": "Continue",
+    "need_help": "Need help? Contact",
+    "management_dashboard": "Management Dashboard",
+    "management_description": "Manage your team, approve requests, and view department metrics.",
+    "hr_dashboard": "HR Dashboard",
+    "hr_description": "Manage compliance, payroll exports, and employee dossiers.",
+    "admin_dashboard": "Admin Dashboard",
+    "admin_description": "System administration, billing, and audit logs."
+  }
+}
