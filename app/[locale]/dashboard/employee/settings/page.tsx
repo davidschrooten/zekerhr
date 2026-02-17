@@ -7,6 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { User, Lock, Mail, Building, Briefcase } from "lucide-react";
 import { AnimatePage } from "@/components/animate-page";
+import { Link } from "@/i18n/routing";
 
 export default async function EmployeeSettingsPage() {
   const supabase = await createClient();
@@ -134,7 +135,7 @@ export default async function EmployeeSettingsPage() {
                   </p>
                 </div>
                 <Button variant="outline" asChild>
-                  <a href="/auth/update-password">Wachtwoord Wijzigen</a>
+                  <Link href="/auth/update-password">Wachtwoord Wijzigen</Link>
                 </Button>
               </div>
             </CardContent>

@@ -25,17 +25,13 @@ export async function updateSession(request: NextRequest, response: NextResponse
   );
 
   // Refresh session
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  await supabase.auth.getUser();
 
   // Protected routes logic
   // We need to be locale-aware or just check if it's a protected path.
   // Paths are like /en/dashboard, /nl/dashboard.
   // Auth paths are /en/auth/login, /en/auth/sign-up.
-  
-  const pathname = request.nextUrl.pathname;
-  
+    
   // Simple check: if it contains /dashboard/ and no user, redirect to login.
   // We should respect the current locale if possible.
   

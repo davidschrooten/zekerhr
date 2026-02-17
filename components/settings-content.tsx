@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { Link } from "@/i18n/routing";
 
 export async function SettingsContent() {
   const supabase = await createClient();
@@ -73,7 +74,7 @@ export async function SettingsContent() {
                     </p>
                 </div>
                 <Button variant="outline" asChild>
-                    <a href="/auth/update-password">Change Password</a>
+                    <Link href="/auth/update-password">Change Password</Link>
                 </Button>
              </div>
           </CardContent>
