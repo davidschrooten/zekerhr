@@ -1,6 +1,6 @@
 "use client";
 
-import { Card } from '@/components/ui/card'
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { FileText, Calendar, Clock, CheckCircle2, AlertTriangle } from 'lucide-react'
 import { ActivityItem } from '@/app/actions/employee'
 import { formatDistanceToNow } from 'date-fns'
@@ -22,15 +22,15 @@ export function EmployeeActivity({ activities }: EmployeeActivityProps) {
 
   const getColors = (type: string, status?: string) => {
     if (type === 'leave') {
-       if (status === 'approved') return { bg: 'bg-emerald-100 dark:bg-emerald-950/30', text: 'text-emerald-600 dark:text-emerald-500' };
-       if (status === 'denied') return { bg: 'bg-red-100 dark:bg-red-950/30', text: 'text-red-600 dark:text-red-500' };
-       return { bg: 'bg-blue-100 dark:bg-blue-950/30', text: 'text-blue-600 dark:text-blue-500' };
+       if (status === 'approved') return { bg: 'bg-emerald-50 text-emerald-600', text: 'text-emerald-600' };
+       if (status === 'denied') return { bg: 'bg-red-50 text-red-600', text: 'text-red-600' };
+       return { bg: 'bg-blue-50 text-blue-600', text: 'text-blue-600' };
     }
     if (type === 'sickness') {
-      if (status === 'recovered') return { bg: 'bg-emerald-100 dark:bg-emerald-950/30', text: 'text-emerald-600 dark:text-emerald-500' };
-      return { bg: 'bg-amber-100 dark:bg-amber-950/30', text: 'text-amber-600 dark:text-amber-500' };
+      if (status === 'recovered') return { bg: 'bg-emerald-50 text-emerald-600', text: 'text-emerald-600' };
+      return { bg: 'bg-amber-50 text-amber-600', text: 'text-amber-600' };
     }
-    return { bg: 'bg-muted', text: 'text-muted-foreground' };
+    return { bg: 'bg-muted text-muted-foreground', text: 'text-muted-foreground' };
   }
 
   return (
@@ -38,52 +38,57 @@ export function EmployeeActivity({ activities }: EmployeeActivityProps) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.3 }}
+      className="h-full"
     >
-      <Card className="flex flex-col gap-4 border border-border bg-card p-6 h-full">
-        <div className="flex items-center justify-between">
-          <h2 className="text-base font-semibold text-foreground">
-            Recente activiteit
-          </h2>
-          <button
-            type="button"
-            className="text-xs text-muted-foreground hover:text-foreground"
-          >
-            Bekijk alles
-          </button>
-        </div>
+      <Card className="flex flex-col h-full border-border/50 bg-background shadow-[0_1px_3px_rgba(0,0,0,0.04)] rounded-2xl overflow-hidden">
+        <CardHeader className="border-b border-border/40 px-6 py-4">
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-base font-semibold text-foreground">
+              Recente activiteit
+            </CardTitle>
+            <button
+              type="button"
+              className="text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Bekijk alles
+            </button>
+          </div>
+        </CardHeader>
 
-        <div className="flex flex-col gap-4">
-          {activities.length === 0 && (
-            <div className="text-sm text-muted-foreground py-4 text-center">
-              Geen recente activiteit.
-            </div>
-          )}
-          {activities.map((activity) => {
-            const Icon = getIcon(activity.type, activity.status)
-            const colors = getColors(activity.type, activity.status)
-            
-            return (
-              <div key={activity.id} className="flex gap-3">
-                <div
-                  className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded border border-border ${colors.bg}`}
-                >
-                  <Icon className={`h-4 w-4 ${colors.text}`} />
-                </div>
-                <div className="flex min-w-0 flex-1 flex-col gap-0.5">
-                  <div className="text-sm font-medium text-foreground">
-                    {activity.title}
-                  </div>
-                  <div className="text-xs text-muted-foreground">
-                    {activity.description}
-                  </div>
-                  <div className="mt-0.5 text-xs text-muted-foreground">
-                    {formatDistanceToNow(new Date(activity.date), { addSuffix: true, locale: nl })}
-                  </div>
-                </div>
+        <CardContent className="flex-1 overflow-auto p-0">
+          <div className="flex flex-col">
+            {activities.length === 0 && (
+              <div className="text-sm text-muted-foreground py-8 text-center">
+                Geen recente activiteit.
               </div>
-            )
-          })}
-        </div>
+            )}
+            {activities.map((activity, index) => {
+              const Icon = getIcon(activity.type, activity.status)
+              const colors = getColors(activity.type, activity.status)
+              
+              return (
+                <div key={activity.id} className={`flex gap-4 p-4 hover:bg-muted/30 transition-colors ${index !== activities.length - 1 ? 'border-b border-border/40' : ''}`}>
+                  <div
+                    className={`mt-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${colors.bg}`}
+                  >
+                    <Icon className={`h-4 w-4`} />
+                  </div>
+                  <div className="flex min-w-0 flex-1 flex-col gap-1">
+                    <div className="text-sm font-medium text-foreground">
+                      {activity.title}
+                    </div>
+                    <div className="text-xs text-muted-foreground">
+                      {activity.description}
+                    </div>
+                    <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
+                      {formatDistanceToNow(new Date(activity.date), { addSuffix: true, locale: nl })}
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </CardContent>
       </Card>
     </motion.div>
   )

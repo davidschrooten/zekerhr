@@ -68,33 +68,30 @@ export function EmployeeMetrics({ metrics }: EmployeeMetricsProps) {
         return (
           <motion.div key={metric.label} variants={item}>
             <Card
-              className="flex flex-col gap-3 border border-border bg-card p-5 h-full"
+              className="group flex flex-col justify-between gap-4 border-border/50 bg-background p-6 shadow-[0_1px_3px_rgba(0,0,0,0.04)] transition-all hover:shadow-md rounded-2xl h-full"
             >
-              <div className="flex items-center justify-between">
-                <div className="flex h-9 w-9 items-center justify-center rounded border border-border bg-muted">
-                  <Icon className="h-4 w-4 text-muted-foreground" />
+              <div className="flex items-start justify-between">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted/50 text-muted-foreground group-hover:bg-primary/5 group-hover:text-primary transition-colors">
+                  <Icon className="h-5 w-5" />
                 </div>
                 {metric.status === 'success' && (
-                  <span className="text-xs font-medium text-emerald-600 dark:text-emerald-500">
-                    ✓ Goed
+                  <span className="inline-flex items-center rounded-full bg-emerald-50 px-2 py-1 text-xs font-medium text-emerald-700 ring-1 ring-inset ring-emerald-600/20">
+                    Goedgekeurd
                   </span>
                 )}
                 {metric.status === 'warning' && (
-                  <span className="text-xs font-medium text-amber-600 dark:text-amber-500">
-                    ⚠ Let op
+                  <span className="inline-flex items-center rounded-full bg-amber-50 px-2 py-1 text-xs font-medium text-amber-700 ring-1 ring-inset ring-amber-600/20">
+                    Ziek
                   </span>
                 )}
               </div>
-              <div className="flex flex-col gap-1">
-                <div className="text-2xl font-semibold tracking-tight text-foreground">
+              <div>
+                <div className="text-2xl font-bold tracking-tight text-foreground">
                   {metric.value}
                 </div>
-                <div className="text-xs text-muted-foreground">
+                <p className="text-xs text-muted-foreground mt-1 font-medium">
                   {metric.description}
-                </div>
-                <div className="text-xs font-medium text-foreground">
-                  {metric.label}
-                </div>
+                </p>
               </div>
             </Card>
           </motion.div>

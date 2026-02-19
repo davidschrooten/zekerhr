@@ -52,8 +52,8 @@ export default async function SicknessPage() {
                                 <div key={log.id} className="flex items-center justify-between border-b last:border-0 pb-4 last:pb-0">
                                     <div>
                                         <div className="font-medium">
-                                            {format(new Date(log.report_date), "d MMMM yyyy")}
-                                            {log.recovery_date && ` - ${format(new Date(log.recovery_date), "d MMMM yyyy")}`}
+                                            {format(new Date(log.report_date), "d MMMM yyyy", { locale: nl })}
+                                            {log.recovery_date && ` - ${format(new Date(log.recovery_date), "d MMMM yyyy", { locale: nl })}`}
                                         </div>
                                         <div className="text-sm text-muted-foreground">
                                             {t('status')}: {

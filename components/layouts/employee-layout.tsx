@@ -1,7 +1,7 @@
 "use client";
 
-import { EmployeeTopNav } from "@/components/employee-top-nav";
-import { EmployeeTabNav } from "@/components/employee-tab-nav";
+import { EmployeeSidebar } from "@/components/employee-sidebar";
+import { EmployeeHeader } from "@/components/employee-header";
 
 interface EmployeeLayoutProps {
   children: React.ReactNode;
@@ -14,17 +14,14 @@ interface EmployeeLayoutProps {
 
 export function EmployeeLayout({ children, user }: EmployeeLayoutProps) {
   return (
-    <div className="flex min-h-screen flex-col bg-background">
-      {/* Top Navigation Bar */}
-      <EmployeeTopNav user={user} />
-
-      {/* Tab Navigation */}
-      <EmployeeTabNav />
-
-      {/* Main Content */}
-      <main className="flex-1">
-        {children}
-      </main>
+    <div className="min-h-screen bg-muted/40">
+      <EmployeeSidebar />
+      <div className="pl-64">
+        <EmployeeHeader user={user} />
+        <main className="p-6">
+          {children}
+        </main>
+      </div>
     </div>
   );
 }

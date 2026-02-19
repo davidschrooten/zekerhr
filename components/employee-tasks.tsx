@@ -1,9 +1,8 @@
 "use client";
 
 import React from "react"
-import { Card } from "@/components/ui/card"
-import { CheckCircle2, Clock, User } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
+import { CheckCircle2, Clock, User, ArrowRight } from "lucide-react"
 import Link from "next/link"
 import { motion } from "framer-motion"
 
@@ -64,42 +63,40 @@ export function EmployeeTasks({ activeSickness, profileComplete }: EmployeeTasks
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.2 }}
     >
-      <Card className="flex flex-col gap-4 border border-border bg-card p-6 h-full">
-        <div className="flex items-center justify-between">
-          <h2 className="text-base font-semibold text-foreground">
-            Te doen
-          </h2>
-          <span className="text-sm text-muted-foreground">{tasks.length} items</span>
-        </div>
+      <Card className="flex flex-col h-full border-border/50 bg-background shadow-[0_1px_3px_rgba(0,0,0,0.04)] rounded-2xl overflow-hidden">
+        <CardHeader className="border-b border-border/40 px-6 py-4">
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-base font-semibold text-foreground">
+              Te doen
+            </CardTitle>
+            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-muted text-[10px] font-medium text-foreground">
+              {tasks.length}
+            </span>
+          </div>
+        </CardHeader>
 
-        <div className="flex flex-col">
-          {tasks.map((task, index) => {
-            const Icon = task.icon
-            return (
-              <div key={task.id}>
-                <div
-                  className={`flex items-start justify-between gap-4 py-4 ${
-                    task.highlight ? 'bg-muted/50 -mx-6 px-6' : ''
-                  }`}
+        <CardContent className="p-0">
+          <div className="flex flex-col">
+            {tasks.map((task, index) => {
+              const Icon = task.icon
+              return (
+                <Link 
+                  key={task.id} 
+                  href={task.href}
+                  className={`group flex items-center justify-between gap-4 p-4 hover:bg-muted/30 transition-colors ${index !== tasks.length - 1 ? 'border-b border-border/40' : ''}`}
                 >
-                  <div className="flex gap-3">
+                  <div className="flex gap-4">
                     <div
-                      className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded border ${
-                        task.highlight
-                            ? 'border-border bg-background'
-                            : 'border-border bg-muted'
+                      className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${
+                        task.color === 'emerald' ? 'bg-emerald-50 text-emerald-600' :
+                        task.color === 'amber' ? 'bg-amber-50 text-amber-600' :
+                        'bg-blue-50 text-blue-600'
                       }`}
                     >
-                      <Icon
-                        className={`h-4 w-4 ${
-                          task.color === 'emerald' ? 'text-emerald-600 dark:text-emerald-500' :
-                          task.color === 'amber' ? 'text-amber-600 dark:text-amber-500' :
-                          'text-muted-foreground'
-                        }`}
-                      />
+                      <Icon className="h-5 w-5" />
                     </div>
-                      <div className="flex flex-col gap-1">
-                      <div className="text-sm font-medium text-foreground">
+                    <div className="flex flex-col justify-center">
+                      <div className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">
                         {task.title}
                       </div>
                       <div className="text-xs text-muted-foreground">
@@ -107,22 +104,12 @@ export function EmployeeTasks({ activeSickness, profileComplete }: EmployeeTasks
                       </div>
                     </div>
                   </div>
-                  {task.action && (
-                    <Button
-                      variant={task.highlight ? 'default' : 'ghost'}
-                      size="sm"
-                      className="h-7 shrink-0 text-xs"
-                      asChild
-                    >
-                      <Link href={task.href}>{task.action}</Link>
-                    </Button>
-                  )}
-                </div>
-                {index < tasks.length - 1 && <div className="h-px bg-border" />}
-              </div>
-            )
-          })}
-        </div>
+                  <ArrowRight className="h-4 w-4 text-muted-foreground opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
+                </Link>
+              )
+            })}
+          </div>
+        </CardContent>
       </Card>
     </motion.div>
   )
