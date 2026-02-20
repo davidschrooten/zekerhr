@@ -26,14 +26,14 @@ export default async function EmployeeDashboardPage() {
   const displayName = profile?.full_name?.split(' ')[0] || user.email?.split('@')[0] || 'Collega'
 
   return (
-    <div className="mx-auto max-w-screen-2xl space-y-8 p-8">
+    <div className="mx-auto max-w-screen-2xl space-y-12 p-8 lg:p-12">
       {/* Welcome Message */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight text-foreground">
+          <h2 className="text-4xl font-medium tracking-tight text-espresso">
             {t('welcome', {name: displayName})}
           </h2>
-          <p className="mt-1 text-muted-foreground">
+          <p className="mt-2 text-lg text-taupe font-normal">
             {t('overview_subtitle')}
           </p>
         </div>
@@ -43,14 +43,14 @@ export default async function EmployeeDashboardPage() {
       <EmployeeMetrics metrics={metrics} />
 
       {/* Main Content Grid */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-7">
+      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-7">
         {/* Main Chart Area */}
         <div className="col-span-4 lg:col-span-4">
           <EmployeeChart />
         </div>
 
         {/* Sidebar Area */}
-        <div className="col-span-3 flex flex-col gap-6 lg:col-span-3">
+        <div className="col-span-3 flex flex-col gap-8 lg:col-span-3">
           <EmployeeTasks 
             activeSickness={metrics.activeSickness} 
             profileComplete={metrics.profileComplete}

@@ -14,11 +14,11 @@ interface EmployeeLayoutProps {
 
 export function EmployeeLayout({ children, user }: EmployeeLayoutProps) {
   return (
-    <div className="min-h-screen bg-muted/40">
+    <div className="min-h-screen bg-cream">
       <EmployeeSidebar />
       <div className="pl-64">
         <EmployeeHeader user={user} />
-        <main className="p-6">
+        <main className="p-8 lg:p-12">
           {children}
         </main>
       </div>

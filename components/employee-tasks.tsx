@@ -3,7 +3,7 @@
 import React from "react"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { CheckCircle2, Clock, User, ArrowRight } from "lucide-react"
-import Link from "next/link"
+import { Link } from "@/i18n/routing"
 import { motion } from "framer-motion"
 
 interface EmployeeTasksProps {
@@ -62,49 +62,52 @@ export function EmployeeTasks({ activeSickness, profileComplete }: EmployeeTasks
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.2 }}
+      className="h-full"
     >
-      <Card className="flex flex-col h-full border-border/50 bg-background shadow-[0_1px_3px_rgba(0,0,0,0.04)] rounded-2xl overflow-hidden">
-        <CardHeader className="border-b border-border/40 px-6 py-4">
+      <Card className="flex flex-col h-full border-none bg-white shadow-organic rounded-organic overflow-hidden">
+        <CardHeader className="border-b-0 px-8 py-6">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-base font-semibold text-foreground">
+            <CardTitle className="text-lg font-medium text-espresso tracking-tight">
               Te doen
             </CardTitle>
-            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-muted text-[10px] font-medium text-foreground">
+            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-wheat text-xs font-bold text-espresso">
               {tasks.length}
             </span>
           </div>
         </CardHeader>
 
-        <CardContent className="p-0">
-          <div className="flex flex-col">
+        <CardContent className="p-0 flex-1">
+          <div className="flex flex-col p-2 gap-2">
             {tasks.map((task, index) => {
               const Icon = task.icon
               return (
                 <Link 
                   key={task.id} 
                   href={task.href}
-                  className={`group flex items-center justify-between gap-4 p-4 hover:bg-muted/30 transition-colors ${index !== tasks.length - 1 ? 'border-b border-border/40' : ''}`}
+                  className="group flex items-center justify-between gap-4 p-4 mx-2 rounded-2xl hover:bg-beige-light transition-all duration-300"
                 >
-                  <div className="flex gap-4">
+                  <div className="flex gap-5 items-center">
                     <div
-                      className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${
-                        task.color === 'emerald' ? 'bg-emerald-50 text-emerald-600' :
-                        task.color === 'amber' ? 'bg-amber-50 text-amber-600' :
-                        'bg-blue-50 text-blue-600'
+                      className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl shadow-sm ${
+                        task.color === 'emerald' ? 'bg-emerald-50/50 text-emerald-700' :
+                        task.color === 'amber' ? 'bg-amber-50/50 text-amber-700' :
+                        'bg-blue-50/50 text-blue-700'
                       }`}
                     >
-                      <Icon className="h-5 w-5" />
+                      <Icon className="h-6 w-6 stroke-[1.25]" />
                     </div>
-                    <div className="flex flex-col justify-center">
-                      <div className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">
+                    <div className="flex flex-col justify-center gap-0.5">
+                      <div className="text-base font-medium text-espresso group-hover:text-cedar transition-colors">
                         {task.title}
                       </div>
-                      <div className="text-xs text-muted-foreground">
+                      <div className="text-sm text-taupe font-normal">
                         {task.description}
                       </div>
                     </div>
                   </div>
-                  <ArrowRight className="h-4 w-4 text-muted-foreground opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
+                  <div className="h-8 w-8 flex items-center justify-center rounded-full bg-white opacity-0 group-hover:opacity-100 shadow-sm transition-all duration-300">
+                    <ArrowRight className="h-4 w-4 text-cedar stroke-[1.5]" />
+                  </div>
                 </Link>
               )
             })}

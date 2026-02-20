@@ -47,23 +47,25 @@ export default function LoginPage() {
 
   return (
     <AuthLayout>
-      <Card className="border-border shadow-sm">
-        <CardHeader className="space-y-1 text-center">
-          <CardTitle className="text-2xl font-semibold tracking-tight">{t('login')}</CardTitle>
-          <CardDescription className="text-muted-foreground">
+      <Card className="border-none shadow-organic rounded-organic bg-white overflow-hidden">
+        <CardHeader className="space-y-2 text-center pt-10 px-8">
+          <CardTitle className="text-3xl font-medium tracking-tight text-espresso">{t('login')}</CardTitle>
+          <CardDescription className="text-taupe font-normal">
             {t('login_description')}
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+        <CardContent className="px-8 pb-10">
+          <form onSubmit={handleSubmit} className="space-y-6">
             {error && (
-              <Alert variant="destructive" className="border-destructive/50 bg-destructive/10">
-                <AlertDescription className="text-destructive">{error}</AlertDescription>
+              <Alert className="border-none bg-red-50 text-red-700 rounded-2xl shadow-sm">
+                <AlertDescription className="font-medium">{error}</AlertDescription>
               </Alert>
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="email">{t('email')}</Label>
+              <Label htmlFor="email" className="text-xs uppercase tracking-wider text-taupe font-semibold pl-1">
+                {t('email')}
+              </Label>
               <Input
                 id="email"
                 type="email"
@@ -71,15 +73,18 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                className="rounded-2xl border-none bg-cream px-4 py-6 focus-visible:ring-cedar/20 text-espresso placeholder:text-pebble transition-all"
               />
             </div>
 
             <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="password">{t('password')}</Label>
+              <div className="flex items-center justify-between pl-1">
+                <Label htmlFor="password" className="text-xs uppercase tracking-wider text-taupe font-semibold">
+                  {t('password')}
+                </Label>
                 <Link
                   href="/auth/forgot-password"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-xs font-medium text-cedar hover:text-espresso transition-colors"
                 >
                   {t('forgot_password')}
                 </Link>
@@ -91,24 +96,25 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                className="rounded-2xl border-none bg-cream px-4 py-6 focus-visible:ring-cedar/20 text-espresso placeholder:text-pebble transition-all"
               />
             </div>
 
             <Button
               type="submit"
-              className="w-full"
+              className="w-full rounded-full py-6 bg-cedar hover:bg-cedar/90 text-white shadow-lg hover:shadow-xl transition-all font-medium text-base"
               disabled={isLoading}
             >
               {isLoading ? t('logging_in') : t('login')}
             </Button>
           </form>
 
-          <div className="mt-6 text-center">
-            <p className="text-sm text-muted-foreground">
+          <div className="mt-8 text-center">
+            <p className="text-sm text-taupe font-normal">
               {t('invitation_received') + ' '}
               <Link
                 href="/auth/sign-up"
-                className="font-medium text-foreground hover:underline"
+                className="font-medium text-cedar hover:text-espresso transition-colors"
               >
                 {t('signup_link')}
               </Link>
@@ -117,7 +123,7 @@ export default function LoginPage() {
         </CardContent>
       </Card>
 
-      <p className="mt-6 text-center text-xs text-muted-foreground">
+      <p className="mt-8 text-center text-xs text-pebble font-medium tracking-wide">
         {t('terms_agreement')}
       </p>
     </AuthLayout>

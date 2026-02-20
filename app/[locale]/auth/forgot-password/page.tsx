@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import Link from 'next/link'
+import { Link } from '@/i18n/routing'
 import { AuthLayout } from '@/components/auth-layout'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -48,40 +48,42 @@ export default function ForgotPasswordPage() {
 
   return (
     <AuthLayout>
-      <Card className="border-border shadow-sm">
-        <CardHeader className="space-y-1 text-center">
-          <CardTitle className="text-2xl font-semibold tracking-tight">
+      <Card className="border-none shadow-organic rounded-organic bg-white overflow-hidden">
+        <CardHeader className="space-y-2 text-center pt-10 px-8">
+          <CardTitle className="text-3xl font-medium tracking-tight text-espresso">
             Wachtwoord vergeten
           </CardTitle>
-          <CardDescription className="text-muted-foreground">
+          <CardDescription className="text-taupe font-normal">
             Voer uw e-mailadres in om een herstellink te ontvangen
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="px-8 pb-10">
           {success ? (
-            <div className="space-y-4">
-              <Alert className="border-green-200 bg-green-50">
-                <AlertDescription className="text-green-800">
+            <div className="space-y-6">
+              <Alert className="border-none bg-emerald-50 text-emerald-700 rounded-2xl shadow-sm">
+                <AlertDescription className="font-medium text-center">
                   {'We hebben een herstellink naar uw e-mailadres gestuurd. Controleer uw inbox en volg de instructies om uw wachtwoord te resetten.'}
                 </AlertDescription>
               </Alert>
 
-              <Link href="/auth/login">
-                <Button variant="outline" className="w-full">
+              <Button variant="outline" className="w-full rounded-full py-6 border-none bg-cream hover:bg-wheat text-espresso transition-all font-medium" asChild>
+                <Link href="/auth/login">
                   Terug naar inloggen
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-6">
               {error && (
-                <Alert variant="destructive" className="border-destructive/50 bg-destructive/10">
-                  <AlertDescription className="text-destructive">{error}</AlertDescription>
+                <Alert className="border-none bg-red-50 text-red-700 rounded-2xl shadow-sm">
+                  <AlertDescription className="font-medium">{error}</AlertDescription>
                 </Alert>
               )}
 
               <div className="space-y-2">
-                <Label htmlFor="email">E-mailadres</Label>
+                <Label htmlFor="email" className="text-xs uppercase tracking-wider text-taupe font-semibold pl-1">
+                  E-mailadres
+                </Label>
                 <Input
                   id="email"
                   type="email"
@@ -89,28 +91,31 @@ export default function ForgotPasswordPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
+                  className="rounded-2xl border-none bg-cream px-4 py-6 focus-visible:ring-cedar/20 text-espresso placeholder:text-pebble transition-all"
                 />
               </div>
 
-              <Button
-                type="submit"
-                className="w-full"
-                disabled={isLoading}
-              >
-                {isLoading ? 'Versturen...' : 'Herstellink versturen'}
-              </Button>
-
-              <Link href="/auth/login">
-                <Button variant="ghost" className="w-full">
-                  Terug naar inloggen
+              <div className="space-y-3">
+                <Button
+                  type="submit"
+                  className="w-full rounded-full py-6 bg-cedar hover:bg-cedar/90 text-white shadow-lg hover:shadow-xl transition-all font-medium text-base"
+                  disabled={isLoading}
+                >
+                  {isLoading ? 'Versturen...' : 'Herstellink versturen'}
                 </Button>
-              </Link>
+
+                <Button variant="ghost" className="w-full rounded-full py-6 text-taupe hover:text-espresso hover:bg-cream transition-all font-medium" asChild>
+                  <Link href="/auth/login">
+                    Terug naar inloggen
+                  </Link>
+                </Button>
+              </div>
             </form>
           )}
         </CardContent>
       </Card>
 
-      <p className="mt-6 text-center text-xs text-muted-foreground">
+      <p className="mt-8 text-center text-xs text-pebble font-medium tracking-wide">
         Hulp nodig? Neem contact op met uw beheerder
       </p>
     </AuthLayout>

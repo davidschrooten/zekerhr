@@ -22,22 +22,22 @@ export default async function DocumentsPage() {
   // Group by Type (optional, but let's just list them for now)
 
   return (
-    <AnimatePage className="mx-auto max-w-screen-2xl px-6 py-8 space-y-8">
+    <AnimatePage className="mx-auto max-w-screen-2xl px-8 py-12 space-y-12">
       <div>
-        <h1 className="text-3xl font-semibold tracking-tight">{t('title')}</h1>
-        <p className="text-muted-foreground mt-2">
+        <h1 className="text-4xl font-medium tracking-tight text-espresso">{t('title')}</h1>
+        <p className="text-lg text-taupe mt-2 font-normal">
           {t('subtitle')}
         </p>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>{t('overview_title')}</CardTitle>
-          <CardDescription>
+      <Card className="border-none shadow-organic rounded-organic bg-white">
+        <CardHeader className="px-8 pt-8">
+          <CardTitle className="text-xl font-medium text-espresso">{t('overview_title')}</CardTitle>
+          <CardDescription className="text-taupe font-normal">
             {t('overview_desc')}
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-8">
           <DocumentList documents={documents || []} />
         </CardContent>
       </Card>

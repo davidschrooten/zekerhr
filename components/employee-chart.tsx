@@ -14,24 +14,24 @@ const data = [
 
 export function EmployeeChart() {
   return (
-    <Card className="rounded-2xl border-border/50 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
-      <CardHeader>
-        <CardTitle className="text-base font-medium">Gewerkte Uren (2026)</CardTitle>
+    <Card className="rounded-organic border-none bg-white shadow-organic p-2">
+      <CardHeader className="px-8 pt-8 pb-2">
+        <CardTitle className="text-lg font-medium text-espresso tracking-tight">Gewerkte Uren (2026)</CardTitle>
       </CardHeader>
-      <CardContent className="pl-0">
+      <CardContent className="px-4 pb-4">
         <div className="h-[300px] w-full">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
               <defs>
                 <linearGradient id="colorHours" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.1}/>
-                  <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
+                  <stop offset="5%" stopColor="#8B735B" stopOpacity={0.1}/>
+                  <stop offset="95%" stopColor="#8B735B" stopOpacity={0}/>
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#F2EBE3" />
               <XAxis 
                 dataKey="name" 
-                stroke="hsl(var(--muted-foreground))" 
+                stroke="#8C857E" 
                 fontSize={12} 
                 tickLine={false} 
                 axisLine={false}
@@ -39,17 +39,19 @@ export function EmployeeChart() {
               />
               <Tooltip 
                 contentStyle={{ 
-                  backgroundColor: "hsl(var(--popover))", 
-                  borderColor: "hsl(var(--border))",
-                  borderRadius: "var(--radius)",
-                  boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
+                  backgroundColor: "#FFFFFF", 
+                  borderColor: "transparent",
+                  borderRadius: "16px",
+                  boxShadow: "0 8px 30px rgba(139,115,91,0.08)",
+                  color: "#2D2926",
+                  padding: "12px 16px"
                 }}
-                itemStyle={{ color: "hsl(var(--popover-foreground))" }}
+                itemStyle={{ color: "#8B735B", fontWeight: 500 }}
               />
               <Area 
                 type="monotone" 
                 dataKey="hours" 
-                stroke="hsl(var(--primary))" 
+                stroke="#8B735B" 
                 fillOpacity={1} 
                 fill="url(#colorHours)" 
                 strokeWidth={2}

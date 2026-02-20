@@ -4,31 +4,50 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+    /* Organic Fluidity Palette */
+    /* Base (Cream): #FDFBF7 -> 40 33% 98% */
+    --background: 40 33% 98%;
+    /* Primary (Espresso): #2D2926 -> 25 8% 16% */
+    --foreground: 25 8% 16%;
+    
+    /* Surface (White) */
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --card-foreground: 25 8% 16%;
+    
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
+    --popover-foreground: 25 8% 16%;
+    
+    /* Accent (Cedar): #8B735B -> 30 21% 45% */
+    --primary: 30 21% 45%;
+    --primary-foreground: 0 0% 100%;
+    
+    /* Secondary (Wheat): #F2EBE3 -> 40 35% 92% */
+    --secondary: 40 35% 92%;
+    --secondary-foreground: 25 8% 16%;
+    
+    /* Muted (Sand/Taupe): #F5F2ED -> 37 27% 95% */
+    --muted: 37 27% 95%;
+    --muted-foreground: 30 6% 53%; /* Taupe */
+    
+    --accent: 40 35% 92%; /* Wheat */
+    --accent-foreground: 25 8% 16%;
+    
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
-    --radius: 0.75rem;
-    --chart-1: 0 0% 20%;
-    --chart-2: 0 0% 40%;
-    --chart-3: 0 0% 60%;
-    --chart-4: 0 0% 80%;
-    --chart-5: 0 0% 90%;
+
+    /* Border: Very Light Beige/Wheat */
+    --border: 40 35% 92%;
+    --input: 40 35% 92%;
+    --ring: 30 21% 45%; /* Cedar */
+    
+    /* Radius: 16px (rounded-2xl) */
+    --radius: 1rem;
+    
+    --chart-1: 30 21% 45%; /* Cedar */
+    --chart-2: 25 8% 16%; /* Espresso */
+    --chart-3: 30 6% 53%; /* Taupe */
+    --chart-4: 40 35% 92%; /* Wheat */
+    --chart-5: 37 27% 95%; /* Sand */
   }
 
   .dark {

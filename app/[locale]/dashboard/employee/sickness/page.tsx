@@ -24,10 +24,10 @@ export default async function SicknessPage() {
   const activeSickness = logs?.find(log => !log.recovery_date);
 
   return (
-    <AnimatePage className="mx-auto max-w-screen-2xl px-6 py-8 space-y-8">
+    <AnimatePage className="mx-auto max-w-screen-2xl px-8 py-12 space-y-12">
       <div>
-        <h1 className="text-3xl font-semibold tracking-tight">{t('title')}</h1>
-        <p className="text-muted-foreground mt-2">
+        <h1 className="text-4xl font-medium tracking-tight text-espresso">{t('title')}</h1>
+        <p className="text-lg text-taupe mt-2 font-normal">
           {t('subtitle')}
         </p>
       </div>
@@ -40,22 +40,22 @@ export default async function SicknessPage() {
 
         {/* Right Column: History */}
         <div className="lg:col-span-2">
-            <Card className="h-full">
-                <CardHeader>
-                    <CardTitle>{t('history_title')}</CardTitle>
-                    <CardDescription>{t('history_desc')}</CardDescription>
+            <Card className="h-full border-none shadow-organic rounded-organic bg-white">
+                <CardHeader className="px-8 pt-8">
+                    <CardTitle className="text-xl font-medium text-espresso">{t('history_title')}</CardTitle>
+                    <CardDescription className="text-taupe font-normal">{t('history_desc')}</CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-8">
                     {logs && logs.length > 0 ? (
-                        <div className="space-y-4">
+                        <div className="space-y-2">
                             {logs.map((log) => (
-                                <div key={log.id} className="flex items-center justify-between border-b last:border-0 pb-4 last:pb-0">
+                                <div key={log.id} className="group flex items-center justify-between p-4 rounded-2xl hover:bg-beige-light transition-colors duration-300">
                                     <div>
-                                        <div className="font-medium">
+                                        <div className="font-medium text-espresso">
                                             {format(new Date(log.report_date), "d MMMM yyyy", { locale: nl })}
                                             {log.recovery_date && ` - ${format(new Date(log.recovery_date), "d MMMM yyyy", { locale: nl })}`}
                                         </div>
-                                        <div className="text-sm text-muted-foreground">
+                                        <div className="text-sm text-taupe font-normal mt-1">
                                             {t('status')}: {
                                                 log.status === 'recovered' ? t('recovered') :
                                                 log.status === 'reported' ? t('reported') :
@@ -65,11 +65,11 @@ export default async function SicknessPage() {
                                     </div>
                                     <div className="flex items-center gap-2">
                                          {!log.recovery_date ? (
-                                             <span className="px-2 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400">
+                                             <span className="px-3 py-1 rounded-full text-xs font-medium bg-amber-50 text-amber-700 shadow-sm">
                                                  {t('active')}
                                              </span>
                                          ) : (
-                                             <span className="px-2 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400">
+                                             <span className="px-3 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 shadow-sm">
                                                  {t('recovered')}
                                              </span>
                                          )}
@@ -78,7 +78,7 @@ export default async function SicknessPage() {
                             ))}
                         </div>
                     ) : (
-                        <p className="text-muted-foreground text-sm">{t('no_sickness')}</p>
+                        <p className="text-taupe text-sm py-8 text-center">{t('no_sickness')}</p>
                     )}
                 </CardContent>
             </Card>

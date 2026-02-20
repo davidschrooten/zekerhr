@@ -39,35 +39,35 @@ export default async function ExpensesPage({
   const monthName = new Date(year, month - 1).toLocaleString('default', { month: 'long' });
 
   return (
-    <AnimatePage className="mx-auto max-w-screen-2xl px-6 py-8">
-      <div className="flex items-center justify-between mb-8">
+    <AnimatePage className="mx-auto max-w-screen-2xl px-8 py-12">
+      <div className="flex items-center justify-between mb-12">
         <div>
-          <h1 className="text-3xl font-semibold tracking-tight text-foreground">
+          <h1 className="text-4xl font-medium tracking-tight text-espresso">
             {t('title')}
           </h1>
-          <p className="mt-2 text-sm text-muted-foreground">
+          <p className="mt-2 text-lg text-taupe font-normal">
             {t('subtitle')}
           </p>
         </div>
-        <Button asChild>
+        <Button className="rounded-full shadow-lg hover:shadow-xl transition-all" asChild>
           <Link href="/dashboard/employee/expenses/new">
-            <Plus className="mr-2 h-4 w-4" />
+            <Plus className="mr-2 h-5 w-5 stroke-[1.5]" />
             {t('new_expense')}
           </Link>
         </Button>
       </div>
 
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-medium">
+      <div className="flex items-center justify-between mb-6 px-2">
+        <h2 className="text-xl font-medium text-espresso tracking-tight">
             {t('overview_month', {month: monthName, year: year})}
         </h2>
         <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" asChild>
+            <Button variant="outline" size="sm" className="rounded-full border-none bg-white shadow-sm hover:bg-wheat hover:text-espresso" asChild>
                 <Link href={`/dashboard/employee/expenses?month=${prevDate.getMonth() + 1}&year=${prevDate.getFullYear()}`}>
                     <ChevronLeft className="h-4 w-4" />
                 </Link>
             </Button>
-            <Button variant="outline" size="sm" disabled={nextDate > new Date()} asChild={!(nextDate > new Date())}>
+            <Button variant="outline" size="sm" className="rounded-full border-none bg-white shadow-sm hover:bg-wheat hover:text-espresso" disabled={nextDate > new Date()} asChild={!(nextDate > new Date())}>
                 {nextDate > new Date() ? (
                     <span><ChevronRight className="h-4 w-4" /></span>
                 ) : (
@@ -79,35 +79,38 @@ export default async function ExpensesPage({
         </div>
       </div>
 
-      <Card>
+      <Card className="border-none shadow-organic rounded-organic bg-white overflow-hidden">
         <CardContent className="p-0">
           <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>{t('date')}</TableHead>
-                <TableHead>{t('description')}</TableHead>
-                <TableHead>{t('category')}</TableHead>
-                <TableHead>{t('amount')}</TableHead>
-                <TableHead>{t('status')}</TableHead>
+            <TableHeader className="bg-cream border-b-0">
+              <TableRow className="border-b-0 hover:bg-cream">
+                <TableHead className="font-medium text-taupe py-6 pl-8">{t('date')}</TableHead>
+                <TableHead className="font-medium text-taupe py-6">{t('description')}</TableHead>
+                <TableHead className="font-medium text-taupe py-6">{t('category')}</TableHead>
+                <TableHead className="font-medium text-taupe py-6">{t('amount')}</TableHead>
+                <TableHead className="font-medium text-taupe py-6 pr-8">{t('status')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {expenses && expenses.length > 0 ? (
                 expenses.map((expense) => (
-                  <TableRow key={expense.id}>
-                    <TableCell>{new Date(expense.date).toLocaleDateString()}</TableCell>
-                    <TableCell>{expense.description}</TableCell>
-                    <TableCell className="capitalize">{expense.category}</TableCell>
-                    <TableCell>€ {(expense.amount_cents / 100).toFixed(2)}</TableCell>
-                    <TableCell>
+                  <TableRow key={expense.id} className="border-b-0 hover:bg-beige-light transition-colors">
+                    <TableCell className="py-6 pl-8 text-espresso font-medium">{new Date(expense.date).toLocaleDateString()}</TableCell>
+                    <TableCell className="py-6 text-espresso">{expense.description}</TableCell>
+                    <TableCell className="capitalize py-6 text-taupe">{expense.category}</TableCell>
+                    <TableCell className="py-6 font-mono text-espresso">€ {(expense.amount_cents / 100).toFixed(2)}</TableCell>
+                    <TableCell className="py-6 pr-8">
                       <Badge
-                        variant={
+                        variant="secondary"
+                        className={`rounded-full px-3 py-1 font-medium ${
                           expense.status === "approved"
-                            ? "default"
+                            ? "bg-emerald-50 text-emerald-700 hover:bg-emerald-100"
                             : expense.status === "rejected"
-                            ? "destructive"
-                            : "secondary"
-                        }
+                            ? "bg-red-50 text-red-700 hover:bg-red-100"
+                            : expense.status === "paid"
+                            ? "bg-blue-50 text-blue-700 hover:bg-blue-100"
+                            : "bg-amber-50 text-amber-700 hover:bg-amber-100"
+                        }`}
                       >
                         {expense.status === "approved"
                           ? t('approved')
@@ -121,8 +124,8 @@ export default async function ExpensesPage({
                   </TableRow>
                 ))
               ) : (
-                <TableRow>
-                  <TableCell colSpan={5} className="text-center text-muted-foreground h-24">
+                <TableRow className="hover:bg-transparent">
+                  <TableCell colSpan={5} className="text-center text-taupe h-32 py-12">
                     {t('no_expenses')}
                   </TableCell>
                 </TableRow>

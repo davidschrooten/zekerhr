@@ -53,11 +53,28 @@ export default {
           "4": "hsl(var(--chart-4))",
           "5": "hsl(var(--chart-5))",
         },
+        // Organic Fluidity Palette
+        espresso: "#2D2926",
+        cedar: "#8B735B",
+        cream: "#FDFBF7",
+        sand: "#F5F2ED",
+        wheat: "#F2EBE3",
+        taupe: "#8C857E",
+        pebble: "#BDB7B0",
+        beige: {
+          DEFAULT: "#FDFBF7", // Base canvas
+          dark: "#F5F2ED",    // Sidebar/Surface
+          light: "#FAF9F6",   // Hover/Row tint
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        organic: "32px",
+      },
+      boxShadow: {
+        organic: "0 8px 30px rgba(139,115,91,0.04)",
       },
       fontFamily: {
         sans: ["var(--font-geist-sans)", "var(--font-inter)", ...fontFamily.sans],

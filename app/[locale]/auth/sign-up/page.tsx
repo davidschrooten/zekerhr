@@ -76,24 +76,26 @@ export default function SignupPage() {
 
   return (
     <AuthLayout>
-      <Card className="border-border shadow-sm">
-        <CardHeader className="space-y-1 text-center">
-          <CardTitle className="text-2xl font-semibold tracking-tight">{t('signup_title')}</CardTitle>
-          <CardDescription className="text-muted-foreground">
+      <Card className="border-none shadow-organic rounded-organic bg-white overflow-hidden">
+        <CardHeader className="space-y-2 text-center pt-10 px-8">
+          <CardTitle className="text-3xl font-medium tracking-tight text-espresso">{t('signup_title')}</CardTitle>
+          <CardDescription className="text-taupe font-normal">
             {t('signup_description')}
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+        <CardContent className="px-8 pb-10">
+          <form onSubmit={handleSubmit} className="space-y-6">
             {error && (
-              <Alert variant="destructive" className="border-destructive/50 bg-destructive/10">
-                <AlertDescription className="text-destructive">{error}</AlertDescription>
+              <Alert className="border-none bg-red-50 text-red-700 rounded-2xl shadow-sm">
+                <AlertDescription className="font-medium">{error}</AlertDescription>
               </Alert>
             )}
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="firstName">{t('first_name')}</Label>
+                <Label htmlFor="firstName" className="text-xs uppercase tracking-wider text-taupe font-semibold pl-1">
+                  {t('first_name')}
+                </Label>
                 <Input
                   id="firstName"
                   type="text"
@@ -101,11 +103,14 @@ export default function SignupPage() {
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
                   required
+                  className="rounded-2xl border-none bg-cream px-4 py-6 focus-visible:ring-cedar/20 text-espresso placeholder:text-pebble transition-all"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="lastName">{t('last_name')}</Label>
+                <Label htmlFor="lastName" className="text-xs uppercase tracking-wider text-taupe font-semibold pl-1">
+                  {t('last_name')}
+                </Label>
                 <Input
                   id="lastName"
                   type="text"
@@ -113,12 +118,15 @@ export default function SignupPage() {
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
                   required
+                  className="rounded-2xl border-none bg-cream px-4 py-6 focus-visible:ring-cedar/20 text-espresso placeholder:text-pebble transition-all"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password">{t('password')}</Label>
+              <Label htmlFor="password" className="text-xs uppercase tracking-wider text-taupe font-semibold pl-1">
+                {t('password')}
+              </Label>
               <Input
                 id="password"
                 type="password"
@@ -126,11 +134,14 @@ export default function SignupPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                className="rounded-2xl border-none bg-cream px-4 py-6 focus-visible:ring-cedar/20 text-espresso placeholder:text-pebble transition-all"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="confirmPassword">{t('confirm_password')}</Label>
+              <Label htmlFor="confirmPassword" className="text-xs uppercase tracking-wider text-taupe font-semibold pl-1">
+                {t('confirm_password')}
+              </Label>
               <Input
                 id="confirmPassword"
                 type="password"
@@ -138,24 +149,25 @@ export default function SignupPage() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
+                className="rounded-2xl border-none bg-cream px-4 py-6 focus-visible:ring-cedar/20 text-espresso placeholder:text-pebble transition-all"
               />
             </div>
 
             <Button
               type="submit"
-              className="w-full"
+              className="w-full rounded-full py-6 bg-cedar hover:bg-cedar/90 text-white shadow-lg hover:shadow-xl transition-all font-medium text-base"
               disabled={isLoading}
             >
               {isLoading ? t('creating_account') : t('create_account')}
             </Button>
           </form>
 
-          <div className="mt-6 text-center">
-            <p className="text-sm text-muted-foreground">
+          <div className="mt-8 text-center">
+            <p className="text-sm text-taupe font-normal">
               {t('already_account') + ' '}
               <Link
                 href="/auth/login"
-                className="font-medium text-foreground hover:underline"
+                className="font-medium text-cedar hover:text-espresso transition-colors"
               >
                 {t('login_link')}
               </Link>
@@ -164,7 +176,7 @@ export default function SignupPage() {
         </CardContent>
       </Card>
 
-      <p className="mt-6 text-center text-xs text-muted-foreground">
+      <p className="mt-8 text-center text-xs text-pebble font-medium tracking-wide">
         {t('terms_signup')}
       </p>
     </AuthLayout>

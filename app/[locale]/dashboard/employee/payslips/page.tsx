@@ -31,32 +31,32 @@ export default async function PayslipsPage() {
   }
 
   return (
-    <AnimatePage className="mx-auto max-w-screen-2xl px-6 py-8 space-y-8">
+    <AnimatePage className="mx-auto max-w-screen-2xl px-8 py-12 space-y-12">
       <div>
-        <h1 className="text-3xl font-semibold tracking-tight">{t('title')}</h1>
-        <p className="text-muted-foreground mt-2">
+        <h1 className="text-4xl font-medium tracking-tight text-espresso">{t('title')}</h1>
+        <p className="text-lg text-taupe mt-2 font-normal">
           {t('subtitle')}
         </p>
       </div>
 
-      <Alert className="flex items-start gap-4">
-        <Info className="h-4 w-4 mt-0.5 shrink-0" />
+      <Alert className="flex items-start gap-4 border-none bg-wheat/50 text-espresso rounded-2xl shadow-sm">
+        <Info className="h-5 w-5 mt-0.5 shrink-0 text-cedar" />
         <div className="grid gap-1">
-          <AlertTitle className="col-start-auto">{t('alert_title')}</AlertTitle>
-          <AlertDescription className="col-start-auto">
+          <AlertTitle className="col-start-auto font-medium text-espresso">{t('alert_title')}</AlertTitle>
+          <AlertDescription className="col-start-auto text-taupe">
             {t('alert_desc')}
           </AlertDescription>
         </div>
       </Alert>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>{t('overview_title')}</CardTitle>
-          <CardDescription>
+      <Card className="border-none shadow-organic rounded-organic bg-white">
+        <CardHeader className="px-8 pt-8">
+          <CardTitle className="text-xl font-medium text-espresso">{t('overview_title')}</CardTitle>
+          <CardDescription className="text-taupe font-normal">
             {t('overview_desc')}
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-8">
           <PayslipList documents={documents || []} />
         </CardContent>
       </Card>

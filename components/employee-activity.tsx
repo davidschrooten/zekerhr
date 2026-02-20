@@ -40,15 +40,15 @@ export function EmployeeActivity({ activities }: EmployeeActivityProps) {
       transition={{ delay: 0.3 }}
       className="h-full"
     >
-      <Card className="flex flex-col h-full border-border/50 bg-background shadow-[0_1px_3px_rgba(0,0,0,0.04)] rounded-2xl overflow-hidden">
-        <CardHeader className="border-b border-border/40 px-6 py-4">
+      <Card className="flex flex-col h-full border-none bg-white shadow-organic rounded-organic overflow-hidden">
+        <CardHeader className="border-b-0 px-8 py-6">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-base font-semibold text-foreground">
+            <CardTitle className="text-lg font-medium text-espresso tracking-tight">
               Recente activiteit
             </CardTitle>
             <button
               type="button"
-              className="text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
+              className="text-sm font-medium text-cedar hover:text-espresso transition-colors"
             >
               Bekijk alles
             </button>
@@ -56,9 +56,9 @@ export function EmployeeActivity({ activities }: EmployeeActivityProps) {
         </CardHeader>
 
         <CardContent className="flex-1 overflow-auto p-0">
-          <div className="flex flex-col">
+          <div className="flex flex-col p-2 gap-1">
             {activities.length === 0 && (
-              <div className="text-sm text-muted-foreground py-8 text-center">
+              <div className="text-sm text-taupe py-12 text-center font-normal">
                 Geen recente activiteit.
               </div>
             )}
@@ -67,20 +67,24 @@ export function EmployeeActivity({ activities }: EmployeeActivityProps) {
               const colors = getColors(activity.type, activity.status)
               
               return (
-                <div key={activity.id} className={`flex gap-4 p-4 hover:bg-muted/30 transition-colors ${index !== activities.length - 1 ? 'border-b border-border/40' : ''}`}>
+                <div key={activity.id} className="group flex gap-5 p-4 mx-2 rounded-2xl hover:bg-beige-light transition-all duration-300">
                   <div
-                    className={`mt-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${colors.bg}`}
+                    className={`mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl shadow-sm ${
+                      activity.status === 'approved' || activity.status === 'recovered' ? 'bg-emerald-50/50 text-emerald-700' :
+                      activity.status === 'denied' ? 'bg-red-50/50 text-red-700' :
+                      'bg-wheat text-espresso'
+                    }`}
                   >
-                    <Icon className={`h-4 w-4`} />
+                    <Icon className="h-5 w-5 stroke-[1.25]" />
                   </div>
                   <div className="flex min-w-0 flex-1 flex-col gap-1">
-                    <div className="text-sm font-medium text-foreground">
+                    <div className="text-base font-medium text-espresso group-hover:text-cedar transition-colors">
                       {activity.title}
                     </div>
-                    <div className="text-xs text-muted-foreground">
+                    <div className="text-sm text-taupe font-normal">
                       {activity.description}
                     </div>
-                    <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
+                    <div className="text-[10px] uppercase tracking-wider text-pebble font-semibold pt-1">
                       {formatDistanceToNow(new Date(activity.date), { addSuffix: true, locale: nl })}
                     </div>
                   </div>

@@ -28,10 +28,10 @@ export default async function LeavePage() {
     .order("created_at", { ascending: false });
 
   return (
-    <AnimatePage className="mx-auto max-w-screen-2xl px-6 py-8 space-y-8">
+    <AnimatePage className="mx-auto max-w-screen-2xl px-8 py-12 space-y-12">
       <div>
-        <h1 className="text-3xl font-semibold tracking-tight">{t('title')}</h1>
-        <p className="text-muted-foreground mt-2">
+        <h1 className="text-4xl font-medium tracking-tight text-espresso">{t('title')}</h1>
+        <p className="text-lg text-taupe mt-2 font-normal">
           {t('subtitle')}
         </p>
       </div>
@@ -41,12 +41,12 @@ export default async function LeavePage() {
         <div className="lg:col-span-1 space-y-8">
             <LeaveBalanceSummary balances={balances || []} />
             
-            <Card>
-                <CardHeader>
-                    <CardTitle>{t('request_leave')}</CardTitle>
-                    <CardDescription>{t('new_request_desc')}</CardDescription>
+            <Card className="border-none shadow-organic rounded-organic bg-white">
+                <CardHeader className="px-8 pt-8">
+                    <CardTitle className="text-xl font-medium text-espresso">{t('request_leave')}</CardTitle>
+                    <CardDescription className="text-taupe font-normal">{t('new_request_desc')}</CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-8">
                     <LeaveRequestForm />
                 </CardContent>
             </Card>
@@ -54,30 +54,30 @@ export default async function LeavePage() {
 
         {/* Right Column: History */}
         <div className="lg:col-span-2">
-            <Card className="h-full">
-                <CardHeader>
-                    <CardTitle>{t('history')}</CardTitle>
-                    <CardDescription>{t('history_desc')}</CardDescription>
+            <Card className="h-full border-none shadow-organic rounded-organic bg-white">
+                <CardHeader className="px-8 pt-8">
+                    <CardTitle className="text-xl font-medium text-espresso">{t('history')}</CardTitle>
+                    <CardDescription className="text-taupe font-normal">{t('history_desc')}</CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-8">
                     {requests && requests.length > 0 ? (
-                        <div className="space-y-4">
+                        <div className="space-y-2">
                             {requests.map((req) => (
-                                <div key={req.id} className="flex items-center justify-between border-b last:border-0 pb-4 last:pb-0">
+                                <div key={req.id} className="group flex items-center justify-between p-4 rounded-2xl hover:bg-beige-light transition-colors duration-300">
                                     <div>
-                                        <div className="font-medium">
+                                        <div className="font-medium text-espresso">
                                             {new Date(req.start_date).toLocaleDateString("nl-NL")} - {new Date(req.end_date).toLocaleDateString("nl-NL")}
                                         </div>
-                                        <div className="text-sm text-muted-foreground">
+                                        <div className="text-sm text-taupe font-normal mt-1">
                                             {(req.minutes_requested / 60).toFixed(1)} {t('hours')}
                                             {req.reason && ` • ${req.reason}`}
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-2">
-                                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                            req.status === 'approved' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400' :
-                                            req.status === 'denied' ? 'bg-red-100 text-red-700 dark:bg-red-950/30 dark:text-red-400' :
-                                            'bg-amber-100 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400'
+                                        <span className={`px-3 py-1 rounded-full text-xs font-medium shadow-sm ${
+                                            req.status === 'approved' ? 'bg-emerald-50 text-emerald-700' :
+                                            req.status === 'denied' ? 'bg-red-50 text-red-700' :
+                                            'bg-amber-50 text-amber-700'
                                         }`}>
                                             {req.status === 'approved' ? t('approved') : req.status === 'denied' ? t('denied') : t('pending')}
                                         </span>
@@ -86,7 +86,7 @@ export default async function LeavePage() {
                             ))}
                         </div>
                     ) : (
-                        <p className="text-muted-foreground text-sm">{t('no_requests')}</p>
+                        <p className="text-taupe text-sm py-8 text-center">{t('no_requests')}</p>
                     )}
                 </CardContent>
             </Card>

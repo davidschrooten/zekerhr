@@ -50,53 +50,51 @@ export default async function RoleSelectionPage() {
     specializedDescription = t("admin_description");
     specializedIcon = ShieldCheck;
   }
-// ...
-
   const SpecializedIconComponent = specializedIcon;
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-background px-4">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-cream px-6">
       <div className="w-full max-w-5xl">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-semibold text-foreground mb-3 tracking-tight">
+        <div className="text-center mb-16">
+          <h1 className="text-5xl font-medium text-espresso mb-4 tracking-tight">
             {t('welcome')}
           </h1>
-          <p className="text-muted-foreground text-lg">
+          <p className="text-taupe text-xl font-normal">
             {t('select_continue')}
           </p>
         </div>
 
         {/* Role Cards Grid */}
-        <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {/* Employee Portal Card */}
           <Link 
             href="/dashboard/employee"
-            className="group block"
+            className="group block h-full"
           >
-            <div className="relative h-full bg-card border border-border rounded-lg p-8 transition-all duration-200 hover:border-foreground cursor-pointer">
+            <div className="relative h-full bg-white border-none rounded-organic shadow-organic p-10 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer">
               <div className="flex flex-col h-full">
                 {/* Icon */}
-                <div className="mb-6">
-                  <div className="w-14 h-14 rounded-lg bg-muted flex items-center justify-center transition-colors duration-200 group-hover:bg-foreground">
-                    <User className="w-7 h-7 text-foreground transition-colors duration-200 group-hover:text-background" />
+                <div className="mb-8">
+                  <div className="w-16 h-16 rounded-2xl bg-wheat flex items-center justify-center transition-colors duration-300 group-hover:bg-cedar shadow-sm">
+                    <User className="w-8 h-8 text-cedar transition-colors duration-300 group-hover:text-white stroke-[1.5]" />
                   </div>
                 </div>
 
                 {/* Content */}
                 <div className="flex-1">
-                  <h2 className="text-2xl font-semibold text-foreground mb-3 tracking-tight">
+                  <h2 className="text-3xl font-medium text-espresso mb-4 tracking-tight">
                     {t('employee_portal')}
                   </h2>
-                  <p className="text-muted-foreground leading-relaxed">
+                  <p className="text-taupe leading-relaxed text-lg font-normal">
                     {t('employee_description')}
                   </p>
                 </div>
 
                 {/* Arrow indicator */}
-                <div className="mt-6 flex items-center text-sm font-medium text-foreground opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                <div className="mt-8 flex items-center text-base font-medium text-cedar opacity-0 transition-all duration-300 transform translate-y-2 group-hover:opacity-100 group-hover:translate-y-0">
                   <span>{t('continue')}</span>
-                  <ChevronRight className="ml-2 w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
+                  <ChevronRight className="ml-2 w-5 h-5 stroke-[1.5]" />
                 </div>
               </div>
             </div>
@@ -105,31 +103,31 @@ export default async function RoleSelectionPage() {
           {/* Specialized Dashboard Card */}
           <Link 
             href={specializedLink}
-            className="group block"
+            className="group block h-full"
           >
-            <div className="relative h-full bg-card border border-border rounded-lg p-8 transition-all duration-200 hover:border-foreground cursor-pointer">
+            <div className="relative h-full bg-white border-none rounded-organic shadow-organic p-10 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer">
               <div className="flex flex-col h-full">
                 {/* Icon */}
-                <div className="mb-6">
-                  <div className="w-14 h-14 rounded-lg bg-muted flex items-center justify-center transition-colors duration-200 group-hover:bg-foreground">
-                    <SpecializedIconComponent className="w-7 h-7 text-foreground transition-colors duration-200 group-hover:text-background" />
+                <div className="mb-8">
+                  <div className="w-16 h-16 rounded-2xl bg-wheat flex items-center justify-center transition-colors duration-300 group-hover:bg-cedar shadow-sm">
+                    <SpecializedIconComponent className="w-8 h-8 text-cedar transition-colors duration-300 group-hover:text-white stroke-[1.5]" />
                   </div>
                 </div>
 
                 {/* Content */}
                 <div className="flex-1">
-                  <h2 className="text-2xl font-semibold text-foreground mb-3 tracking-tight">
+                  <h2 className="text-3xl font-medium text-espresso mb-4 tracking-tight">
                     {specializedTitle}
                   </h2>
-                  <p className="text-muted-foreground leading-relaxed">
+                  <p className="text-taupe leading-relaxed text-lg font-normal">
                     {specializedDescription}
                   </p>
                 </div>
 
                 {/* Arrow indicator */}
-                <div className="mt-6 flex items-center text-sm font-medium text-foreground opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                <div className="mt-8 flex items-center text-base font-medium text-cedar opacity-0 transition-all duration-300 transform translate-y-2 group-hover:opacity-100 group-hover:translate-y-0">
                   <span>{t('continue')}</span>
-                  <ChevronRight className="ml-2 w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
+                  <ChevronRight className="ml-2 w-5 h-5 stroke-[1.5]" />
                 </div>
               </div>
             </div>
@@ -137,9 +135,9 @@ export default async function RoleSelectionPage() {
         </div>
 
         {/* Footer Note */}
-        <div className="text-center mt-8">
-          <p className="text-sm text-muted-foreground">
-            {t('need_help')} <span className="text-foreground font-medium">support@zekerhr.com</span>
+        <div className="text-center mt-12">
+          <p className="text-sm text-pebble font-medium tracking-wide">
+            {t('need_help')} <span className="text-cedar hover:text-espresso transition-colors cursor-pointer">support@zekerhr.com</span>
           </p>
         </div>
       </div>

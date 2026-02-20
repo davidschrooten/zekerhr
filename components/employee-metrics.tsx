@@ -68,28 +68,28 @@ export function EmployeeMetrics({ metrics }: EmployeeMetricsProps) {
         return (
           <motion.div key={metric.label} variants={item}>
             <Card
-              className="group flex flex-col justify-between gap-4 border-border/50 bg-background p-6 shadow-[0_1px_3px_rgba(0,0,0,0.04)] transition-all hover:shadow-md rounded-2xl h-full"
+              className="group flex flex-col justify-between gap-6 border-none bg-white p-8 shadow-organic transition-all hover:shadow-lg hover:-translate-y-1 rounded-organic h-full"
             >
               <div className="flex items-start justify-between">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted/50 text-muted-foreground group-hover:bg-primary/5 group-hover:text-primary transition-colors">
-                  <Icon className="h-5 w-5" />
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-cream text-taupe group-hover:bg-cedar group-hover:text-white transition-colors duration-300">
+                  <Icon className="h-6 w-6 stroke-[1.25]" />
                 </div>
                 {metric.status === 'success' && (
-                  <span className="inline-flex items-center rounded-full bg-emerald-50 px-2 py-1 text-xs font-medium text-emerald-700 ring-1 ring-inset ring-emerald-600/20">
+                  <span className="inline-flex items-center rounded-full bg-emerald-50/50 px-3 py-1 text-xs font-medium text-emerald-700 ring-0">
                     Goedgekeurd
                   </span>
                 )}
                 {metric.status === 'warning' && (
-                  <span className="inline-flex items-center rounded-full bg-amber-50 px-2 py-1 text-xs font-medium text-amber-700 ring-1 ring-inset ring-amber-600/20">
+                  <span className="inline-flex items-center rounded-full bg-amber-50/50 px-3 py-1 text-xs font-medium text-amber-700 ring-0">
                     Ziek
                   </span>
                 )}
               </div>
               <div>
-                <div className="text-2xl font-bold tracking-tight text-foreground">
+                <div className="text-3xl font-medium tracking-tight text-espresso">
                   {metric.value}
                 </div>
-                <p className="text-xs text-muted-foreground mt-1 font-medium">
+                <p className="text-sm text-taupe mt-1 font-normal tracking-wide">
                   {metric.description}
                 </p>
               </div>
