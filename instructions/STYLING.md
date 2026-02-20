@@ -1,71 +1,64 @@
-# ZekerHR Styling Guidelines
+# ZekerHR Styling Guidelines: Organic Fluidity
 
-## 1. Design Philosophy: The Geist System
-We adhere to the **Geist Design System** principles, pioneered by Vercel. Our aesthetic is defined by:
+## 1. Design Philosophy: Natural Flow
+We employ an **Organic Fluidity** system. The aesthetic is inspired by high-end interior design and modern "Calm Tech" SaaS—prioritizing warmth, breathability, and the complete absence of harsh geometry.
 
--   **Precision:** Every pixel matters. Alignments must be exact.
--   **Minimalism:** Remove unnecessary decoration. Content is king.
--   **Speed:** The UI should look and feel fast. Avoid heavy animations or layout shifts.
--   **Functionality:** Aesthetic choices should serve a functional purpose (e.g., color indicates state, not decoration).
+-   **Softness:** Absolutely no hard lines or 1px borders. Every element uses large radii to feel tactile and "molded."
+-   **Tonal Depth:** Hierarchy is established through "layering" warm tones (beige on cream) rather than lines or heavy shadows.
+-   **Organic Palette:** A sophisticated mix of Light Beige, Earthy Brown, and Warm Grey creates a workspace that feels human and focused.
 
 ## 2. Core Tokens
 
-### Typography (Geist)
-We use the **Geist** font family exclusively, with Inter as a fallback for older systems.
+### Typography (Geist Sans)
+-   **Headings:** Medium (500). Avoid Bold to keep the interface feeling "light."
+-   **Body:** Regular (400). Wide line-height (`leading-relaxed`) to prevent text density fatigue.
+-   **Color:** Use **Deep Espresso** (`#2D2926`) instead of Black for text to maintain warmth.
 
--   **Geist Sans:** Primary font for all UI text, headings, and body.
-    -   *Headings:* Bold (700) or ExtraBold (800). Tracking tight (`-0.02em` or `tracking-tight`).
-    -   *Body:* Regular (400) or Medium (500). High contrast for readability.
-    -   *Secondary:* Muted foreground for supporting text.
--   **Geist Mono:** For code blocks, data values, IDs, BSNs, IBANs, and financial figures.
-    -   *Usage:* Use `font-mono` for any data that requires precise character alignment or technical context.
-
-### Colors & Contrast
-We maintain a **High Contrast** theme to ensure accessibility and clarity.
+### Colors: The Earth & Stone Palette
+We use a "Warm-Scale" instead of Greyscale to create a more inviting, premium environment.
 
 -   **Backgrounds:**
-    -   *Light Mode:* Pure White (`#FFFFFF`).
-    -   *Dark Mode:* Pure Black (`#000000`) or extremely dark gray (`#0A0A0A` for surfaces).
+    -   *Base (The Canvas):* Light Beige / Cream (`#FDFBF7`).
+    -   *Surface (The Cards):* Pure White (`#FFFFFF`) or Soft Sand (`#F5F2ED`).
 -   **Foregrounds:**
-    -   *Primary:* Absolute Black (`#000`) on Light / Absolute White (`#FFF`) on Dark.
-    -   *Secondary:* Gray-500 to Gray-700. Avoid low-contrast gray-on-gray.
--   **Borders:**
-    -   Subtle but distinct. `border-gray-200` (Light) / `border-gray-800` (Dark).
+    -   *Primary:* Deep Espresso (`#2D2926`) — high legibility, low harshness.
+    -   *Secondary:* Muted Taupe (`#8C857E`).
+    -   *Tertiary:* Soft Pebble (`#BDB7B0`).
 -   **Accents:**
-    -   Use colors (Blue, Red, Amber) *only* for semantic meaning (Actions, Errors, Warnings). Never for decoration.
+    -   *Primary Action:* Warm Cedar / Light Brown (`#8B735B`).
+    -   *Hover/Selection:* Pale Wheat (`#F2EBE3`).
 
-### Layout & Grid
-The **Grid** is the foundation of the Vercel aesthetic.
+### Elevation & Radius
+-   **Border Radius:** 
+    -   *Large Containers/Cards:* `rounded-[32px]` (The "Super-ellipse" feel).
+    -   *Buttons/Inputs:* `rounded-2xl` (16px) or `rounded-full`.
+-   **Shadows:** 
+    -   Use "Ambient Glow" shadows that match the background warmth. 
+    -   Example: `shadow-[0_8px_30px_rgba(139,115,91,0.04)]` (A tiny hint of brown in the shadow).
+-   **Borders:** **Forbidden.** Use color-blocking (e.g., a white card on a beige background) to define edges.
 
--   **Density:** Interfaces should be information-dense but not cluttered.
--   **Whitespace:** Use consistent spacing scales (multiples of 4px).
--   **Containers:**
-    -   *Dashboard:* Wide, often full-width or `max-w-[1600px]`.
-    -   *Documents/Forms:* Constrained for readability (`max-w-2xl`).
--   **Structure:**
-    -   **Sidebar:** Fixed width (250px-280px), distinct border, consistent navigation.
-    -   **Header:** Minimal height, sticky, distinct border-bottom.
-    -   **Cards:** Flat designs. Use borders (`border`) instead of shadows (`shadow-sm` at most). Hover states can lift slightly.
-
-## 3. Component Guidelines (Shadcn/UI Overrides)
+## 3. Component Guidelines
 
 ### Buttons
--   **Radius:** `rounded-md` (6px) or `rounded-sm` (4px). Avoid full pills unless for specific tags.
--   **Primary:** Black background, White text (Light mode inverse). No gradients.
--   **Secondary:** White background, Black border, Black text.
--   **Ghost:** Transparent background, subtle hover effect.
+-   **Primary:** Warm Cedar (`#8B735B`) background with White or Cream text.
+-   **Secondary:** Pale Wheat (`#F2EBE3`) background with Deep Espresso text.
+-   **Shape:** Always `rounded-full` for a friendly, approachable feel.
+
+### Cards & Layout
+-   **The "Inset" Sidebar:** The sidebar should be a slightly darker shade (Light Beige `#F5F2ED`) than the main content area (Pure White `#FFFFFF`), creating a natural split without a line.
+-   **Padding:** Extreme whitespace. Double the standard padding (e.g., use `p-12` for main headers).
 
 ### Inputs & Forms
--   **Borders:** Minimal, consistent width (1px).
--   **Focus:** Distinct focus rings (offset 2px).
--   **Labels:** `text-sm`, `font-medium`, `text-muted-foreground`.
+-   **Appearance:** "Soft Wells." Use `bg-stone-100/50` or a very light beige wash.
+-   **Focus:** Instead of a blue ring, use a soft `ring-4 ring-stone-200/50`.
+-   **Labels:** Small, all-caps, with wide tracking (`tracking-[0.15em]`) in Muted Taupe.
 
-### Tables (Data Density)
--   **Headers:** `text-xs`, `uppercase`, `text-muted-foreground`, `tracking-wider`.
--   **Rows:** `h-10` or `h-12` (Compact).
--   **Dividers:** Horizontal borders only. Avoid vertical borders in simple tables.
--   **Zebra Striping:** Avoid. Use hover states for row tracking.
+### Tables & Data
+-   **Rows:** No dividers. Use alternating background tints of Very Light Beige (`#FAF9F6`) only on hover.
+-   **Cells:** Generous vertical padding (`py-6`).
 
 ## 4. Implementation Notes
--   **Tailwind:** Use `bg-background`, `text-foreground`, `border-border` aliases derived from the CSS variables.
--   **Icons:** Use `Lucide React` with stroke width `1.5px` or `2px` for consistency with Geist icons.
+-   **Tailwind Config:**
+    -   Map `stone` or `zinc` to these warmer hex codes.
+    -   Custom utility: `shadow-organic` for the soft, tinted shadows.
+-   **Icons:** `Lucide React` with `stroke-width={1.25}`. Thin, elegant lines in Deep Espresso or Warm Cedar.
